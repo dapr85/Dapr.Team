@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════════════════
+VeritasCore™ Official Website with Integrated AI
+Copyright © 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.
+
+PROPRIETARY AND CONFIDENTIAL
+Contact: dapr.team@gmail.com
+═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeritasCore™ - Autonomous Self-Modifying AI Agent</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;800&display=swap');
+
+:root {
+  --navy: #050e1a;
+  --navy2: #0a1628;
+  --navy3: #0f1f38;
+  --card: #0d1b2e;
+  --teal: #00d4c8;
+  --teal2: #00a89e;
+  --teal3: rgba(0,212,200,0.12);
+  --gold: #f0b429;
+  --gold2: rgba(240,180,41,0.15);
+  --text: #c8d8e8;
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Rajdhani', sans-serif;
+  --body: 'Exo 2', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Scanlines effect */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Grid background */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: var(--teal3);
+  animation: hexPulse 3s ease-in-out infinite;
+}
+
+@keyframes hexPulse {
+  0%, 100% { box-shadow: 0 0 10px var(--teal); }
+  50% { box-shadow: 0 0 25px var(--teal), 0 0 50px rgba(0,212,200,0.3); }
+}
+
+.logo-text {
+  font-family: var(--head);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+.logo-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 3px;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--head);
+  font-weight: 500;
+  transition: color 0.3s;
+  position: relative;
+}
+
+nav a:hover {
+  color: var(--teal);
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--teal);
+  transition: width 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 4rem;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--head);
+  font-size: 4rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.hero h1 .tm {
+  font-size: 2rem;
+  vertical-align: super;
+  color: var(--teal);
+}
+
+.hero .tagline {
+  font-size: 1.5rem;
+  color: var(--teal);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 1rem 2.5rem;
+  font-family: var(--head);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: var(--teal);
+  color: var(--navy);
+  box-shadow: 0 0 20px rgba(0,212,200,0.4);
+}
+
+.btn-primary:hover {
+  background: var(--teal2);
+  box-shadow: 0 0 30px rgba(0,212,200,0.6);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--teal);
+  border: 2px solid var(--teal);
+}
+
+.btn-secondary:hover {
+  background: var(--teal3);
+  transform: translateY(-2px);
+}
+
+/* Features Section */
+.features {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 2rem;
+}
+
+.features h2 {
+  font-family: var(--head);
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.feature-card {
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.2);
+  padding: 2rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.feature-card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 0 30px rgba(0,212,200,0.2);
+  transform: translateY(-5px);
+}
+
+.feature-card h3 {
+  font-family: var(--head);
+  font-size: 1.5rem;
+  color: var(--teal);
+  margin-bottom: 1rem;
+}
+
+.feature-card p {
+  opacity: 0.9;
+}
+
+/* AI Chat Section */
+.ai-chat-section {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 4rem auto;
+  padding: 2rem;
+}
+
+.ai-chat-section h2 {
+  font-family: var(--head);
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.ai-chat-section .subtitle {
+  text-align: center;
+  color: var(--teal);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.chat-container {
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,212,200,0.1);
+}
+
+.chat-header {
+  background: var(--navy2);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.chat-config {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--teal);
+}
+
+.chat-messages {
+  height: 400px;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message {
+  display: flex;
+  gap: 1rem;
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.message.ai .message-avatar {
+  background: var(--teal3);
+  border: 2px solid var(--teal);
+  color: var(--teal);
+}
+
+.message.user .message-avatar {
+  background: var(--gold2);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+}
+
+.message-content {
+  background: var(--navy2);
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 70%;
+  border: 1px solid rgba(0,212,200,0.1);
+}
+
+.message.user .message-content {
+  background: var(--navy3);
+  border-color: rgba(240,180,41,0.2);
+}
+
+.message-content p {
+  margin: 0;
+}
+
+.message-time {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  opacity: 0.5;
+  margin-top: 0.5rem;
+}
+
+.chat-input-area {
+  padding: 1.5rem;
+  border-top: 1px solid rgba(0,212,200,0.2);
+  background: var(--navy2);
+}
+
+.chat-input-container {
+  display: flex;
+  gap: 1rem;
+}
+
+#chatInput {
+  flex: 1;
+  background: var(--navy3);
+  border: 1px solid rgba(0,212,200,0.3);
+  color: var(--text);
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: var(--body);
+  font-size: 1rem;
+}
+
+#chatInput:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 10px rgba(0,212,200,0.2);
+}
+
+#sendBtn {
+  padding: 1rem 2rem;
+  background: var(--teal);
+  color: var(--navy);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--head);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#sendBtn:hover {
+  background: var(--teal2);
+  box-shadow: 0 0 20px rgba(0,212,200,0.4);
+}
+
+#sendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-config-panel {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--navy3);
+  border-radius: 8px;
+  border: 1px solid rgba(0,212,200,0.2);
+}
+
+.config-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.config-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.config-item label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+}
+
+.config-item input,
+.config-item select {
+  width: 100%;
+  background: var(--navy2);
+  border: 1px solid rgba(0,212,200,0.3);
+  color: var(--text);
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+}
+
+/* Footer */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid rgba(0,212,200,0.2);
+}
+
+footer p {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.copyright {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--navy2);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--teal);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--teal2);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+      </svg>
+    </div>
+    <div>
+      <div class="logo-text">VERITASCORE<span class="tm">™</span></div>
+      <div class="logo-sub">AUTONOMOUS AI AGENT</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#features">Features</a>
+    <a href="#ai-demo">AI Demo</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>VERITASCORE<span class="tm">™</span></h1>
+  <div class="tagline">Autonomous Self-Modifying AI Agent</div>
+  <p>
+    The world's first cryptographically verified autonomous AI agent with self-modification capability.
+    Designed for air-gapped deployment, edge computing, and regulated industries requiring provable integrity.
+  </p>
+  <div class="cta-buttons">
+    <a href="#ai-demo" class="btn btn-primary">Try AI Demo</a>
+    <a href="#features" class="btn btn-secondary">Learn More</a>
+  </div>
+</section>
+
+<section id="features" class="features">
+  <h2>Unique Capabilities</h2>
+  <div class="feature-grid">
+    <div class="feature-card">
+      <h3>🔐 Cryptographic Integrity</h3>
+      <p>First-to-market cryptographically verified self-modification. Every code change is signed, versioned, and auditable - meeting EU AI Act, FINRA, and HIPAA compliance requirements.</p>
+    </div>
+    <div class="feature-card">
+      <h3>⚡ Ultra-Lightweight</h3>
+      <p>6.8MB RAM footprint enables deployment on edge devices, industrial PLCs, and tactical field equipment where competitors cannot operate.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🛡️ Air-Gapped Operation</h3>
+      <p>Complete offline capability for classified environments, financial institutions, and sovereign AI deployments requiring data sovereignty.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🔄 Versioned Rollback</h3>
+      <p>Every modification is instantly reversible with cryptographic proof. Self-healing with automatic rollback on performance degradation.</p>
+    </div>
+    <div class="feature-card">
+      <h3>🎯 BYOLLM Architecture</h3>
+      <p>Bring Your Own LLM - works with any local model (Ollama, LM Studio) or API. No vendor lock-in, 90%+ gross margins.</p>
+    </div>
+    <div class="feature-card">
+      <h3>📊 Enterprise Ready</h3>
+      <p>Built for regulated industries: defense, finance, healthcare, critical infrastructure. FedRAMP and SOC 2 compliance ready.</p>
+    </div>
+  </div>
+</section>
+
+<section id="ai-demo" class="ai-chat-section">
+  <h2>AI Assistant Demo</h2>
+  <p class="subtitle">Experience VeritasCore's AI capabilities - completely running in your browser</p>
+  
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-status">
+        <div class="status-dot"></div>
+        <span id="statusText">Local AI Ready</span>
+      </div>
+      <div class="chat-config">
+        <span id="modelInfo">Browser-Based AI</span>
+      </div>
+    </div>
+    
+    <div class="chat-messages" id="chatMessages">
+      <div class="message ai">
+        <div class="message-avatar">AI</div>
+        <div class="message-content">
+          <p>👋 Hello! I'm VeritasCore AI Assistant. I'm running entirely in your browser - no external servers, complete privacy.</p>
+          <p style="margin-top: 0.5rem;">Ask me about:</p>
+          <p>• VeritasCore's capabilities<br>
+          • Deployment options<br>
+          • Pricing and licensing<br>
+          • Technical architecture<br>
+          • Compliance features</p>
+          <div class="message-time" id="initialTime"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-input-area">
+      <div class="ai-config-panel">
+        <div class="config-row">
+          <div class="config-item">
+            <label>AI Backend:</label>
+            <select id="aiBackend">
+              <option value="local">Local (Browser-Based)</option>
+              <option value="ollama">Ollama (http://localhost:11434)</option>
+              <option value="custom">Custom API Endpoint</option>
+            </select>
+          </div>
+          <div class="config-item">
+            <label>Model:</label>
+            <input type="text" id="modelName" value="Browser AI" placeholder="e.g., llama3, mistral">
+          </div>
+          <div class="config-item" style="display: none;" id="customEndpointContainer">
+            <label>API Endpoint:</label>
+            <input type="text" id="customEndpoint" placeholder="http://localhost:8000/api">
+          </div>
+        </div>
+      </div>
+      
+      <div class="chat-input-container">
+        <input 
+          type="text" 
+          id="chatInput" 
+          placeholder="Type your message..."
+          onkeypress="if(event.key === 'Enter') sendMessage()"
+        >
+        <button id="sendBtn" onclick="sendMessage()">SEND</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Developed by DAPR (Dale Associate Public Relations)</p>
+  <p>Contact: dapr.team@gmail.com | Calgary, Alberta, Canada</p>
+  <p class="copyright">© 2026 DAPR. All Rights Reserved. VeritasCore™ is a trademark of DAPR.</p>
+</footer>
+
+<script>
+// Initialize
+document.getElementById('initialTime').textContent = new Date().toLocaleTimeString();
+
+// Configuration handling
+document.getElementById('aiBackend').addEventListener('change', function() {
+  const customContainer = document.getElementById('customEndpointContainer');
+  if (this.value === 'custom') {
+    customContainer.style.display = 'block';
+  } else {
+    customContainer.style.display = 'none';
+  }
+  
+  // Update status
+  updateStatus();
+});
+
+function updateStatus() {
+  const backend = document.getElementById('aiBackend').value;
+  const statusText = document.getElementById('statusText');
+  const modelInfo = document.getElementById('modelInfo');
+  
+  if (backend === 'local') {
+    statusText.textContent = 'Local AI Ready';
+    modelInfo.textContent = 'Browser-Based AI';
+  } else if (backend === 'ollama') {
+    statusText.textContent = 'Connecting to Ollama...';
+    modelInfo.textContent = 'Ollama Local';
+    checkOllamaConnection();
+  } else {
+    statusText.textContent = 'Custom Endpoint';
+    modelInfo.textContent = document.getElementById('customEndpoint').value || 'Not configured';
+  }
+}
+
+async function checkOllamaConnection() {
+  try {
+    const response = await fetch('http://localhost:11434/api/tags');
+    if (response.ok) {
+      document.getElementById('statusText').textContent = 'Ollama Connected';
+      const data = await response.json();
+      if (data.models && data.models.length > 0) {
+        document.getElementById('modelInfo').textContent = `Ollama: ${data.models.length} models`;
+      }
+    }
+  } catch (error) {
+    document.getElementById('statusText').textContent = 'Ollama Offline';
+    document.getElementById('modelInfo').textContent = 'Start Ollama to connect';
+  }
+}
+
+// Chat functionality
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const message = input.value.trim();
+  
+  if (!message) return;
+  
+  // Add user message
+  addMessage('user', message);
+  input.value = '';
+  
+  // Disable send button
+  const sendBtn = document.getElementById('sendBtn');
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'THINKING...';
+  
+  // Get AI response
+  const response = await getAIResponse(message);
+  
+  // Add AI response
+  addMessage('ai', response);
+  
+  // Re-enable send button
+  sendBtn.disabled = false;
+  sendBtn.textContent = 'SEND';
+}
+
+function addMessage(type, content) {
+  const messagesContainer = document.getElementById('chatMessages');
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `message ${type}`;
+  
+  const avatar = type === 'ai' ? 'AI' : 'YOU';
+  const time = new Date().toLocaleTimeString();
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">${avatar}</div>
+    <div class="message-content">
+      <p>${content}</p>
+      <div class="message-time">${time}</div>
+    </div>
+  `;
+  
+  messagesContainer.appendChild(messageDiv);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+async function getAIResponse(message) {
+  const backend = document.getElementById('aiBackend').value;
+  
+  if (backend === 'ollama') {
+    return await getOllamaResponse(message);
+  } else if (backend === 'custom') {
+    return await getCustomAPIResponse(message);
+  } else {
+    return getLocalResponse(message);
+  }
+}
+
+async function getOllamaResponse(message) {
+  try {
+    const model = document.getElementById('modelName').value || 'llama3';
+    const response = await fetch('http://localhost:11434/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: model,
+        prompt: message,
+        stream: false
+      })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      return data.response;
+    } else {
+      return "❌ Ollama connection failed. Make sure Ollama is running with: `ollama serve`";
+    }
+  } catch (error) {
+    return "❌ Cannot connect to Ollama. Install it from https://ollama.ai and run `ollama serve`";
+  }
+}
+
+async function getCustomAPIResponse(message) {
+  try {
+    const endpoint = document.getElementById('customEndpoint').value;
+    if (!endpoint) {
+      return "⚠️ Please configure your custom API endpoint in the settings above.";
+    }
+    
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: message })
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      return data.response || data.message || JSON.stringify(data);
+    } else {
+      return `❌ API request failed: ${response.status} ${response.statusText}`;
+    }
+  } catch (error) {
+    return `❌ API connection error: ${error.message}`;
+  }
+}
+
+function getLocalResponse(message) {
+  // Simple rule-based responses for demo
+  const msg = message.toLowerCase();
+  
+  // VeritasCore questions
+  if (msg.includes('what is') && msg.includes('veritascore')) {
+    return "VeritasCore™ is an autonomous self-modifying AI agent with cryptographically verified integrity. It's the first commercial system to combine autonomous code modification with versioned rollback and cryptographic signing - perfect for regulated industries like defense, finance, and healthcare.";
+  }
+  
+  if (msg.includes('price') || msg.includes('cost') || msg.includes('pricing')) {
+    return "VeritasCore offers flexible pricing:\n\n• Community: FREE (open-source)\n• Pro: $39-49/month\n• Team: $199-399/month\n• Enterprise: $2,000-10,000/month\n• Government/Defense: $200K-2M+ annually\n• Edge/IoT: $5-50/device/year\n\nAll tiers support BYOLLM (Bring Your Own LLM) for maximum cost efficiency.";
+  }
+  
+  if (msg.includes('feature') || msg.includes('capabilit')) {
+    return "Key features:\n\n🔐 Cryptographic self-modification verification\n⚡ 6.8MB RAM footprint\n🛡️ Air-gapped offline operation\n🔄 Versioned rollback system\n🎯 BYOLLM architecture\n📊 Compliance-ready (EU AI Act, FINRA, HIPAA, SOC 2)\n\nPerfect for edge deployment and regulated industries.";
+  }
+  
+  if (msg.includes('deploy') || msg.includes('install')) {
+    return "VeritasCore can be deployed:\n\n• Edge devices (6.8MB RAM requirement)\n• Industrial PLCs and SCADA systems\n• Tactical field equipment\n• Air-gapped environments\n• Cloud (AWS, Azure, GCP)\n• On-premise servers\n• Docker containers\n\nNo GPU required. Works with any local LLM (Ollama, LM Studio) or API.";
+  }
+  
+  if (msg.includes('complian') || msg.includes('regulat')) {
+    return "VeritasCore is designed for regulated industries:\n\n✓ EU AI Act Article 12 compliance\n✓ FINRA Rule 4511 (financial services)\n✓ HIPAA Security Rule (healthcare)\n✓ SOC 2 Type II ready\n✓ FedRAMP authorization path\n✓ CMMC compliance for defense\n\nCryptographic audit trails satisfy all major regulatory frameworks.";
+  }
+  
+  if (msg.includes('ollama') || msg.includes('local')) {
+    return "To use your own local AI:\n\n1. Install Ollama from https://ollama.ai\n2. Run: `ollama pull llama3` (or mistral, phi, etc.)\n3. Start server: `ollama serve`\n4. Select 'Ollama' in the dropdown above\n5. Start chatting!\n\nCompletely offline, private, and free. No API costs ever.";
+  }
+  
+  if (msg.includes('contact') || msg.includes('email') || msg.includes('support')) {
+    return "Contact DAPR:\n\n📧 Email: dapr.team@gmail.com\n📍 Location: Calgary, Alberta, Canada\n\nFor licensing, partnerships, or technical questions, reach out anytime!";
+  }
+  
+  if (msg.includes('thank')) {
+    return "You're welcome! Feel free to ask anything about VeritasCore or connect your own local AI using the settings above. 🚀";
+  }
+  
+  // Default response
+  return `I'm a demo AI running in your browser. I can answer questions about VeritasCore!\n\nTo use a real AI, connect Ollama (local) or your own API endpoint using the settings above.\n\nYou asked: "${message}"\n\nTry asking about:\n• "What is VeritasCore?"\n• "What are the features?"\n• "How much does it cost?"\n• "How do I deploy it?"\n• "How do I use Ollama?"`;
+}
+
+// Initialize status
+updateStatus();
+</script>
+
+</body>
+</html>
