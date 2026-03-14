@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════════════════
+VeritasCore™ Deployment Control Panel
+Copyright © 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.
+
+PROPRIETARY AND CONFIDENTIAL
+This file is part of the VeritasCore™ Autonomous Self-Modifying AI Agent System.
+
+Unauthorized copying, distribution, modification, or use of this file,
+via any medium, is strictly prohibited without express written permission
+from DAPR.
+
+VeritasCore™ is a trademark of DAPR.
+
+Contact: dapr.team@gmail.com
+License: See LICENSE.txt for terms of use.
+═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeritasCore™ — Deployment Control</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,600;0,800;1,300&display=swap');
+
+:root {
+  --navy: #050e1a;
+  --navy2: #0a1628;
+  --navy3: #0f1f38;
+  --card: #0d1b2e;
+  --teal: #00d4c8;
+  --teal2: #00a89e;
+  --teal3: rgba(0,212,200,0.12);
+  --gold: #f0b429;
+  --gold2: rgba(240,180,41,0.15);
+  --red: #ff4d6d;
+  --red2: rgba(255,77,109,0.12);
+  --green: #00e676;
+  --green2: rgba(0,230,118,0.12);
+  --mid: #4a6080;
+  --text: #c8d8e8;
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Rajdhani', sans-serif;
+  --body: 'Exo 2', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Grid bg */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER ───────────────────────────────────────────────────────────────── */
+header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px;
+  background: var(--navy2);
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  box-shadow: 0 2px 30px rgba(0,0,0,0.5);
+}
+
+.logo {
+  display: flex; align-items: center; gap: 12px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  border: 2px solid var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: var(--teal3);
+  animation: hexPulse 3s ease-in-out infinite;
+}
+@keyframes hexPulse {
+  0%,100% { box-shadow: 0 0 8px var(--teal); }
+  50% { box-shadow: 0 0 20px var(--teal), 0 0 40px rgba(0,212,200,0.3); }
+}
+.logo-icon svg { width: 18px; height: 18px; fill: var(--teal); }
+.logo-text { font-family: var(--head); font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+.logo-sub { font-family: var(--mono); font-size: 10px; color: var(--teal); letter-spacing: 3px; margin-top: 2px; }
+
+.header-stats {
+  display: flex; gap: 24px;
+}
+.hstat {
+  text-align: center;
+}
+.hstat-val { font-family: var(--mono); font-size: 18px; color: var(--teal); }
+.hstat-lbl { font-family: var(--mono); font-size: 9px; color: var(--mid); letter-spacing: 2px; }
+
+.status-pill {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; color: var(--green);
+  border: 1px solid var(--green);
+  padding: 6px 14px; border-radius: 2px;
+  background: var(--green2);
+}
+.pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--green);
+  animation: pulseDot 1.4s ease-in-out infinite;
+}
+@keyframes pulseDot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+/* ── MAIN LAYOUT ─────────────────────────────────────────────────────────── */
+.app {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: auto 1fr;
+  height: calc(100vh - 65px);
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────────────────── */
+.sidebar {
+  grid-row: 1 / 3;
+  background: var(--navy2);
+  border-right: 1px solid rgba(0,212,200,0.15);
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-family: var(--mono); font-size: 9px; color: var(--mid);
+  letter-spacing: 3px; padding: 18px 20px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.vertical-btn {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.vertical-btn:hover { background: rgba(0,212,200,0.05); }
+.vertical-btn.active {
+  background: rgba(0,212,200,0.08);
+  border-left-color: var(--teal);
+}
+.vertical-btn.active .vb-name { color: #fff; }
+
+.vb-icon {
+  width: 38px; height: 38px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.vb-text {}
+.vb-name { font-family: var(--head); font-size: 15px; font-weight: 600; color: var(--text); }
+.vb-tag { font-family: var(--mono); font-size: 9px; letter-spacing: 2px; margin-top: 2px; }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid rgba(0,212,200,0.1);
+}
+.integrity-bar-wrap { margin-top: 8px; }
+.integrity-label { font-family: var(--mono); font-size: 9px; color: var(--mid); letter-spacing: 2px; margin-bottom: 5px; }
+.integrity-bar {
+  height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden;
+}
+.integrity-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, var(--teal), var(--gold));
+  animation: integrityAnim 4s ease-in-out infinite alternate;
+}
+@keyframes integrityAnim { from { width: 94%; } to { width: 100%; } }
+
+/* ── TOP BAR ─────────────────────────────────────────────────────────────── */
+.top-bar {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(0,212,200,0.1);
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(13,27,46,0.5);
+}
+.section-title {
+  font-family: var(--head); font-size: 22px; font-weight: 700; color: #fff;
+}
+.section-subtitle { font-family: var(--mono); font-size: 10px; color: var(--teal); letter-spacing: 2px; margin-top: 2px; }
+
+.tag-row { display: flex; gap: 8px; }
+.tag {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 2px;
+  padding: 4px 10px; border-radius: 2px;
+}
+
+/* ── CONTENT ─────────────────────────────────────────────────────────────── */
+.content {
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+/* ── WORKFLOW ─────────────────────────────────────────────────────────────── */
+.workflow-panel {
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.12);
+  border-radius: 4px;
+}
+.panel-header {
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(0,212,200,0.1);
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px; color: var(--teal);
+}
+.panel-header-right { color: var(--mid); font-size: 9px; }
+
+.workflow-canvas {
+  padding: 20px;
+  position: relative;
+  overflow-x: auto;
+}
+
+.wf-row {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 12px;
+}
+.wf-row:last-child { margin-bottom: 0; }
+
+.wf-node {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.wf-box {
+  width: 88px; height: 54px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.wf-box::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.wf-box:hover { transform: translateY(-2px); }
+.wf-box.active { animation: nodeGlow 2s ease-in-out infinite; }
+@keyframes nodeGlow {
+  0%,100% { box-shadow: 0 0 8px rgba(0,212,200,0.3); }
+  50% { box-shadow: 0 0 20px rgba(0,212,200,0.6), 0 0 40px rgba(0,212,200,0.2); }
+}
+
+.wf-box-icon { font-size: 18px; }
+.wf-box-name { font-family: var(--mono); font-size: 8px; text-align: center; color: #fff; line-height: 1.2; padding: 0 4px; }
+.wf-box-sub { font-family: var(--mono); font-size: 7px; color: var(--mid); text-align: center; }
+
+.wf-arrow {
+  width: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.wf-arrow-line {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, var(--teal2), transparent);
+  position: relative;
+}
+.wf-arrow-line::after {
+  content: '▶';
+  position: absolute; right: -6px; top: 50%; transform: translateY(-50%);
+  font-size: 8px; color: var(--teal2);
+}
+
+.wf-label {
+  font-family: var(--mono); font-size: 8px; color: var(--mid);
+  text-align: center; max-width: 88px; line-height: 1.3;
+}
+
+/* Crypto badge */
+.crypto-badge {
+  position: absolute; bottom: -6px; right: -6px;
+  width: 16px; height: 16px;
+  background: var(--gold);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8px;
+  z-index: 2;
+}
+
+/* ── METRICS ROW ──────────────────────────────────────────────────────────── */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.metric-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 14px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.metric-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.metric-val {
+  font-family: var(--mono); font-size: 26px; font-weight: 700;
+  line-height: 1; margin-bottom: 4px;
+}
+.metric-lbl { font-family: var(--mono); font-size: 9px; color: var(--mid); letter-spacing: 2px; }
+.metric-delta { font-family: var(--mono); font-size: 9px; margin-top: 6px; }
+
+/* ── INFO GRID ────────────────────────────────────────────────────────────── */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.info-card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 16px;
+}
+.info-card-title {
+  font-family: var(--head); font-size: 13px; font-weight: 600;
+  color: var(--teal); letter-spacing: 1px; margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.use-case-list { display: flex; flex-direction: column; gap: 8px; }
+.use-case-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 3px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+.use-case-item:hover { background: rgba(0,212,200,0.05); border-left-color: var(--teal); }
+.uc-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.uc-text {}
+.uc-title { font-family: var(--head); font-size: 13px; font-weight: 600; color: #fff; }
+.uc-desc { font-family: var(--body); font-size: 11px; color: var(--mid); margin-top: 2px; line-height: 1.4; }
+
+.compliance-list { display: flex; flex-direction: column; gap: 6px; }
+.compliance-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 3px;
+}
+.ci-name { font-family: var(--mono); font-size: 10px; color: var(--text); }
+.ci-status {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
+  padding: 2px 8px; border-radius: 2px;
+}
+.ci-native { background: var(--green2); color: var(--green); }
+.ci-partial { background: var(--gold2); color: var(--gold); }
+.ci-roadmap { background: rgba(74,96,128,0.3); color: var(--mid); }
+
+/* ── AUDIT LOG ────────────────────────────────────────────────────────────── */
+.audit-panel {
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.12);
+  border-radius: 4px;
+}
+.audit-scroll { max-height: 160px; overflow-y: auto; }
+.audit-scroll::-webkit-scrollbar { width: 4px; }
+.audit-scroll::-webkit-scrollbar-track { background: transparent; }
+.audit-scroll::-webkit-scrollbar-thumb { background: var(--teal2); border-radius: 2px; }
+
+.audit-line {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 7px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  font-family: var(--mono); font-size: 10px;
+  animation: fadeInLine 0.3s ease;
+}
+@keyframes fadeInLine { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; } }
+.al-time { color: var(--mid); flex-shrink: 0; width: 60px; }
+.al-hash { color: var(--teal); flex-shrink: 0; width: 72px; }
+.al-event { color: var(--text); flex: 1; }
+.al-status { flex-shrink: 0; font-size: 9px; }
+
+/* ── VERTICAL PANELS ──────────────────────────────────────────────────────── */
+.vertical-panel { display: none; }
+.vertical-panel.active { display: flex; flex-direction: column; gap: 20px; }
+
+/* ── SCROLLBAR ────────────────────────────────────────────────────────────── */
+.content::-webkit-scrollbar { width: 4px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: var(--teal2); border-radius: 2px; }
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--mid); border-radius: 2px; }
+
+/* ── NODE TOOLTIP ─────────────────────────────────────────────────────────── */
+.tooltip {
+  position: fixed; z-index: 9999;
+  background: var(--navy2);
+  border: 1px solid var(--teal);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-family: var(--mono); font-size: 10px;
+  max-width: 220px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+.tooltip.show { opacity: 1; }
+.tt-title { color: var(--teal); font-size: 11px; margin-bottom: 5px; }
+.tt-desc { color: var(--text); line-height: 1.5; }
+.tt-badge { margin-top: 6px; color: var(--gold); font-size: 9px; }
+
+/* Clock/version display */
+.version-bar {
+  display: flex; gap: 20px; align-items: center;
+}
+.vb-item { font-family: var(--mono); font-size: 10px; color: var(--mid); }
+.vb-item span { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+    </div>
+    <div>
+      <div class="logo-text">VERITASCORE</div>
+      <div class="logo-sub">DEPLOYMENT CONTROL · v1.0</div>
+    </div>
+  </div>
+
+  <div class="header-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="clock">--:--:--</div>
+      <div class="hstat-lbl">SYSTEM TIME</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">6.8MB</div>
+      <div class="hstat-lbl">RAM USAGE</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="ver-counter">v4.2.1</div>
+      <div class="hstat-lbl">SIGNED VER</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="uptime">99.99%</div>
+      <div class="hstat-lbl">UPTIME</div>
+    </div>
+  </div>
+
+  <div class="status-pill">
+    <div class="pulse-dot"></div>
+    SYSTEM NOMINAL · AIR-GAPPED
+  </div>
+</header>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-title">// TARGET VERTICALS</div>
+
+    <div class="vertical-btn active" onclick="switchVertical('defense')" data-v="defense">
+      <div class="vb-icon" style="background:rgba(240,180,41,0.1); border:1px solid rgba(240,180,41,0.3)">🛡️</div>
+      <div class="vb-text">
+        <div class="vb-name">Defense & Intel</div>
+        <div class="vb-tag" style="color:#f0b429">PRIORITY 01 · CLASSIFIED</div>
+      </div>
+    </div>
+
+    <div class="vertical-btn" onclick="switchVertical('finance')" data-v="finance">
+      <div class="vb-icon" style="background:rgba(0,212,200,0.1); border:1px solid rgba(0,212,200,0.3)">🏦</div>
+      <div class="vb-text">
+        <div class="vb-name">Financial Services</div>
+        <div class="vb-tag" style="color:#00d4c8">PRIORITY 02 · FINRA 2026</div>
+      </div>
+    </div>
+
+    <div class="vertical-btn" onclick="switchVertical('manufacturing')" data-v="manufacturing">
+      <div class="vb-icon" style="background:rgba(255,77,109,0.1); border:1px solid rgba(255,77,109,0.3)">⚙️</div>
+      <div class="vb-text">
+        <div class="vb-name">Manufacturing / ICS</div>
+        <div class="vb-tag" style="color:#ff4d6d">PRIORITY 03 · SCADA/OT</div>
+      </div>
+    </div>
+
+    <div class="vertical-btn" onclick="switchVertical('healthcare')" data-v="healthcare">
+      <div class="vb-icon" style="background:rgba(0,230,118,0.1); border:1px solid rgba(0,230,118,0.3)">🏥</div>
+      <div class="vb-text">
+        <div class="vb-name">Healthcare</div>
+        <div class="vb-tag" style="color:#00e676">PRIORITY 04 · HIPAA</div>
+      </div>
+    </div>
+
+    <div class="vertical-btn" onclick="switchVertical('sovereign')" data-v="sovereign">
+      <div class="vb-icon" style="background:rgba(180,120,255,0.1); border:1px solid rgba(180,120,255,0.3)">🌍</div>
+      <div class="vb-text">
+        <div class="vb-name">EU Sovereign AI</div>
+        <div class="vb-tag" style="color:#b478ff">PRIORITY 05 · €480B</div>
+      </div>
+    </div>
+
+    <div style="flex:1"></div>
+
+    <div class="sidebar-footer">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--mid);letter-spacing:2px;margin-bottom:8px">// CRYPTOGRAPHIC INTEGRITY</div>
+      <div class="integrity-bar-wrap">
+        <div class="integrity-label">CHAIN VERIFICATION</div>
+        <div class="integrity-bar"><div class="integrity-fill"></div></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:8px;color:var(--teal);margin-top:6px" id="hash-display">HASH: 0x4f3a...e921</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+    <div class="top-bar">
+      <div>
+        <div class="section-title" id="v-title">Defense & Intelligence</div>
+        <div class="section-subtitle" id="v-subtitle">TACTICAL EDGE DEPLOYMENT · SCIFs · DoDIN ENCLAVES · CMMC COMPLIANT</div>
+      </div>
+      <div class="tag-row" id="v-tags">
+        <span class="tag" style="background:var(--gold2);color:var(--gold);border:1px solid rgba(240,180,41,0.3)">AIR-GAPPED</span>
+        <span class="tag" style="background:var(--teal3);color:var(--teal);border:1px solid rgba(0,212,200,0.3)">6.8MB FOOTPRINT</span>
+        <span class="tag" style="background:var(--green2);color:var(--green);border:1px solid rgba(0,230,118,0.3)">CRYPTO-VERIFIED</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══════════════════ DEFENSE ═══════════════════ -->
+      <div class="vertical-panel active" id="panel-defense">
+
+        <div class="metrics-grid">
+          <div class="metric-card" style="border-top:2px solid var(--gold)">
+            <div class="metric-val" style="color:var(--gold)">$13.4B</div>
+            <div class="metric-lbl">DoD FY2026 AI Budget</div>
+            <div class="metric-delta" style="color:var(--green)">▲ Largest single-year investment</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--teal)">
+            <div class="metric-val" style="color:var(--teal)">$200M</div>
+            <div class="metric-lbl">Max Contract Size</div>
+            <div class="metric-delta" style="color:var(--mid)">Pentagon agentic workflow awards</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--red)">
+            <div class="metric-val" style="color:var(--red)">ZERO</div>
+            <div class="metric-lbl">Attack Surface</div>
+            <div class="metric-delta" style="color:var(--green)">▲ No ports · No cloud · No vectors</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--green)">
+            <div class="metric-val" style="color:var(--green)">CMMC</div>
+            <div class="metric-lbl">Compliance Status</div>
+            <div class="metric-delta" style="color:var(--gold)">RBAC module → Level 2+</div>
+          </div>
+        </div>
+
+        <div class="workflow-panel">
+          <div class="panel-header">
+            <span>// TACTICAL FIELD WORKFLOW — SCIF DEPLOYMENT</span>
+            <span class="panel-header-right">NODES: 7 · CRYPTO-SIGNED · AIR-GAPPED</span>
+          </div>
+          <div class="workflow-canvas">
+            <div class="wf-row">
+              <div class="wf-node">
+                <div class="wf-box active" style="background:rgba(240,180,41,0.1);border-color:rgba(240,180,41,0.4)"
+                  data-tip="Sensor Trigger" data-desc="Edge sensor or field operator initiates mission intelligence request. Runs entirely on local hardware — no connectivity required.">
+                  <div class="wf-box-icon">📡</div>
+                  <div class="wf-box-name">Field Trigger</div>
+                </div>
+                <div class="wf-label">Sensor / Operator</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Intel Ingest" data-desc="Collects multi-source intelligence: sensor feeds, comms intercepts, satellite imagery metadata. All processed locally on edge hardware.">
+                  <div class="wf-box-icon">🗂️</div>
+                  <div class="wf-box-name">Intel Ingest</div>
+                </div>
+                <div class="wf-label">Multi-source data</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Threat Analysis" data-desc="Local AI model analyzes patterns, anomalies, threat signatures. All inference runs on-device. Model weights never leave the SCIF.">
+                  <div class="wf-box-icon">🧠</div>
+                  <div class="wf-box-name">AI Analysis</div>
+                  <div class="wf-box-sub">Local Model</div>
+                </div>
+                <div class="wf-label">Threat detection</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.4)"
+                  data-tip="Crypto Sign" data-desc="Every decision is cryptographically signed before execution. Hash recorded to immutable audit log. Provides mathematical proof of what AI decided, when, and why." data-crypto="true">
+                  <div class="wf-box-icon">🔐</div>
+                  <div class="wf-box-name">Sign &amp; Log</div>
+                  <div class="crypto-badge">⬡</div>
+                </div>
+                <div class="wf-label">Hash + timestamp</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Human Gate" data-desc="Commander review checkpoint. Autonomous action requires human approval at this node. Rollback available instantly if decision is rejected.">
+                  <div class="wf-box-icon">👁️</div>
+                  <div class="wf-box-name">Cmd Review</div>
+                  <div class="wf-box-sub">Human gate</div>
+                </div>
+                <div class="wf-label">Oversight hook</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,230,118,0.08);border-color:rgba(0,230,118,0.3)"
+                  data-tip="Execute" data-desc="Approved action executed. Self-healing monitors the outcome in real-time. Any anomaly triggers automatic rollback to the last verified signed state.">
+                  <div class="wf-box-icon">⚡</div>
+                  <div class="wf-box-name">Execute</div>
+                  <div class="wf-box-sub">Self-healing</div>
+                </div>
+                <div class="wf-label">Verified action</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.3)"
+                  data-tip="Audit Store" data-desc="Full signed chain written to tamper-evident local store. Satisfies CMMC, FedRAMP, and DoD audit requirements. No data ever leaves the air-gap.">
+                  <div class="wf-box-icon">📦</div>
+                  <div class="wf-box-name">Audit Store</div>
+                  <div class="wf-box-sub">Tamper-evident</div>
+                </div>
+                <div class="wf-label">Local only</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-title">⚔️ Defense Use Cases</div>
+            <div class="use-case-list">
+              <div class="use-case-item">
+                <div class="uc-icon">🛩️</div>
+                <div class="uc-text">
+                  <div class="uc-title">Autonomous Field Systems</div>
+                  <div class="uc-desc">UAV swarm coordination, autonomous targeting support, mission planning — all offline, all cryptographically logged for post-mission review.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🏗️</div>
+                <div class="uc-text">
+                  <div class="uc-title">SCIF Intelligence Analysis</div>
+                  <div class="uc-desc">Air-gapped AI for classified document analysis, pattern recognition, threat scoring inside secure compartmented facilities.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">📟</div>
+                <div class="uc-text">
+                  <div class="uc-title">Tactical Edge Hardware</div>
+                  <div class="uc-desc">6.8MB footprint runs on ruggedized field hardware, embedded systems, PLCs — hardware where Devin and LangChain physically cannot run.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🔄</div>
+                <div class="uc-text">
+                  <div class="uc-title">Self-Healing Comms</div>
+                  <div class="uc-desc">Detects node failure or corruption, repairs and verifies its own code, resumes mission without human intervention or reconnection.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">🔒 Compliance & Certification</div>
+            <div class="compliance-list">
+              <div class="compliance-item">
+                <span class="ci-name">FedRAMP Authorization</span>
+                <span class="ci-status ci-roadmap">ROADMAP · $500K-5M</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">CMMC Level 2+</span>
+                <span class="ci-status ci-partial">PARTIAL · RBAC needed</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">NIST MAESTRO</span>
+                <span class="ci-status ci-partial">PARTIAL · hooks present</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">Cryptographic Integrity</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">Air-Gap Operation</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">Tamper-Evident Audit Log</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">SOC 2 Type II</span>
+                <span class="ci-status ci-roadmap">PURSUE FIRST · 6-9mo</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:var(--gold2);border-radius:3px;border:1px solid rgba(240,180,41,0.2)">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--gold);letter-spacing:1px">⚡ FIRST SALES TARGET</div>
+              <div style="font-family:var(--body);font-size:11px;color:var(--text);margin-top:4px;line-height:1.5">Target defense <em>subcontractors</em> first. CMMC mandate = active pain. $50K–$500K budgets. Weeks-long procurement cycles vs. years for primes.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-panel">
+          <div class="panel-header">
+            <span>// LIVE CRYPTOGRAPHIC AUDIT LOG</span>
+            <span class="panel-header-right" style="color:var(--green)">WRITING TO LOCAL STORE · NO EGRESS</span>
+          </div>
+          <div class="audit-scroll" id="audit-log-defense"></div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════ FINANCE ═══════════════════ -->
+      <div class="vertical-panel" id="panel-finance">
+
+        <div class="metrics-grid">
+          <div class="metric-card" style="border-top:2px solid var(--teal)">
+            <div class="metric-val" style="color:var(--teal)">325%</div>
+            <div class="metric-lbl">Insurance AI Adoption Growth</div>
+            <div class="metric-delta" style="color:var(--green)">▲ 8% → 34% in one year (2024–25)</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--gold)">
+            <div class="metric-val" style="color:var(--gold)">$500B</div>
+            <div class="metric-lbl">AI Insurance Market by 2030</div>
+            <div class="metric-delta" style="color:var(--teal)">Crypto audit = lower premiums</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--green)">
+            <div class="metric-val" style="color:var(--green)">NATIVE</div>
+            <div class="metric-lbl">FINRA 2026 Compliance</div>
+            <div class="metric-delta" style="color:var(--mid)">Logged · supervised · reversible</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--red)">
+            <div class="metric-val" style="color:var(--red)">ZERO</div>
+            <div class="metric-lbl">Market Data Egress Risk</div>
+            <div class="metric-delta" style="color:var(--green)">▲ Central banks confirmed use case</div>
+          </div>
+        </div>
+
+        <div class="workflow-panel">
+          <div class="panel-header">
+            <span>// AUTONOMOUS TRADING COMPLIANCE WORKFLOW</span>
+            <span class="panel-header-right">FINRA RULE 4511 · REVERSIBLE · LOGGED</span>
+          </div>
+          <div class="workflow-canvas">
+            <div class="wf-row">
+              <div class="wf-node">
+                <div class="wf-box active" style="background:rgba(0,212,200,0.1);border-color:rgba(0,212,200,0.4)"
+                  data-tip="Market Feed" data-desc="Live market data ingested from internal feeds. Zero external API calls — all data stays within the institution's air-gapped network.">
+                  <div class="wf-box-icon">📊</div>
+                  <div class="wf-box-name">Market Feed</div>
+                </div>
+                <div class="wf-label">Internal data</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Anomaly Detection" data-desc="AI model monitors for fraud patterns, unusual transaction volumes, suspicious sequences. All inference local — market-moving data never leaves the perimeter.">
+                  <div class="wf-box-icon">🔍</div>
+                  <div class="wf-box-name">Anomaly AI</div>
+                  <div class="wf-box-sub">Local model</div>
+                </div>
+                <div class="wf-label">Fraud detection</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.4)"
+                  data-tip="Crypto Sign Decision" data-desc="Every AI decision is signed with private key and timestamped before any action. Creates reconstructable activity chain required by FINRA Rule 4511." data-crypto="true">
+                  <div class="wf-box-icon">🔐</div>
+                  <div class="wf-box-name">Sign Decision</div>
+                  <div class="crypto-badge">⬡</div>
+                </div>
+                <div class="wf-label">FINRA 4511</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Compliance Check" data-desc="Automated compliance gate: checks decision against regulatory rules before execution. Flags violations before they happen, not after.">
+                  <div class="wf-box-icon">⚖️</div>
+                  <div class="wf-box-name">Compliance</div>
+                  <div class="wf-box-sub">Auto-check</div>
+                </div>
+                <div class="wf-label">Pre-execution</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,230,118,0.08);border-color:rgba(0,230,118,0.3)"
+                  data-tip="Execute + Monitor" data-desc="Action executes with real-time monitoring. Self-healing detects if outcome deviates from expected parameters and rolls back automatically.">
+                  <div class="wf-box-icon">💹</div>
+                  <div class="wf-box-name">Execute</div>
+                  <div class="wf-box-sub">+ Monitor</div>
+                </div>
+                <div class="wf-label">Self-healing</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.3)"
+                  data-tip="Reversible Log" data-desc="Complete reconstructable audit trail. Regulator can request any decision chain and receive mathematical proof of the exact AI state that produced it. Satisfies FINRA Rule 4511 natively.">
+                  <div class="wf-box-icon">📋</div>
+                  <div class="wf-box-name">Audit Trail</div>
+                  <div class="wf-box-sub">Reversible</div>
+                </div>
+                <div class="wf-label">Reg-ready</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-title">💹 Finance Use Cases</div>
+            <div class="use-case-list">
+              <div class="use-case-item">
+                <div class="uc-icon">🏦</div>
+                <div class="uc-text">
+                  <div class="uc-title">Central Bank AI</div>
+                  <div class="uc-desc">Sovereign wealth funds and central banks where cloud is "a non-starter" due to market-moving data exfiltration risk. Fully air-gapped by design.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🔎</div>
+                <div class="uc-text">
+                  <div class="uc-title">Real-Time Fraud Detection</div>
+                  <div class="uc-desc">AI monitors transaction streams for anomalous patterns. Every detection decision is signed and reversible — satisfying FINRA's "logged, supervised, reversible" requirement natively.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">📉</div>
+                <div class="uc-text">
+                  <div class="uc-title">Risk Model Self-Repair</div>
+                  <div class="uc-desc">When risk model drifts or degrades, system diagnoses, applies code-level fix, verifies improvement, then signs the new version — or rolls back to the previous signed state.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🛡️</div>
+                <div class="uc-text">
+                  <div class="uc-title">AI Liability Defense</div>
+                  <div class="uc-desc">When regulators or courts ask what the AI decided: produce the exact signed hash of the model state that made the decision. Mathematical proof, not testimony.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">🔒 Compliance Coverage</div>
+            <div class="compliance-list">
+              <div class="compliance-item">
+                <span class="ci-name">FINRA Rule 4511</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">FINRA 2026 Agentic AI Rules</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">SOC 2 (CC7)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">SEC Recordkeeping</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">DORA (EU Digital Resilience)</span>
+                <span class="ci-status ci-partial">PARTIAL</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">Basel III Operational Risk</span>
+                <span class="ci-status ci-partial">PARTIAL</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:var(--teal3);border-radius:3px;border:1px solid rgba(0,212,200,0.2)">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--teal);letter-spacing:1px">💡 INSURANCE EDGE</div>
+              <div style="font-family:var(--body);font-size:11px;color:var(--text);margin-top:4px;line-height:1.5">Crypto audit trail = lower AI insurance premiums. AIG and W.R. Berkley actively exclude autonomous AI liabilities. Your system is the exception they'll cover.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-panel">
+          <div class="panel-header">
+            <span>// LIVE CRYPTOGRAPHIC AUDIT LOG</span>
+            <span class="panel-header-right" style="color:var(--green)">FINRA 4511 COMPLIANT · RECONSTRUCTABLE</span>
+          </div>
+          <div class="audit-scroll" id="audit-log-finance"></div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════ MANUFACTURING ═══════════════════ -->
+      <div class="vertical-panel" id="panel-manufacturing">
+
+        <div class="metrics-grid">
+          <div class="metric-card" style="border-top:2px solid var(--red)">
+            <div class="metric-val" style="color:var(--red)">3,083h</div>
+            <div class="metric-lbl">Downtime Before AI</div>
+            <div class="metric-delta" style="color:var(--green)">▲ Siemens case: reduced to 15.4h</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--green)">
+            <div class="metric-val" style="color:var(--green)">23%</div>
+            <div class="metric-lbl">Edge AI Segment CAGR</div>
+            <div class="metric-delta" style="color:var(--teal)">Fastest growing AI vertical</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--teal)">
+            <div class="metric-val" style="color:var(--teal)">70%</div>
+            <div class="metric-lbl">Incident Frequency Reduction</div>
+            <div class="metric-delta" style="color:var(--mid)">AI self-healing vs. manual repair</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--gold)">
+            <div class="metric-val" style="color:var(--gold)">&lt;2min</div>
+            <div class="metric-lbl">Mean Time to Recovery</div>
+            <div class="metric-delta" style="color:var(--green)">▲ Down from 18 minutes avg</div>
+          </div>
+        </div>
+
+        <div class="workflow-panel">
+          <div class="panel-header">
+            <span>// SCADA/ICS PREDICTIVE MAINTENANCE WORKFLOW</span>
+            <span class="panel-header-right">PURDUE MODEL · PLC COMPATIBLE · NO GPU</span>
+          </div>
+          <div class="workflow-canvas">
+            <div class="wf-row">
+              <div class="wf-node">
+                <div class="wf-box active" style="background:rgba(255,77,109,0.1);border-color:rgba(255,77,109,0.4)"
+                  data-tip="PLC Sensor Array" data-desc="Reads directly from industrial PLCs and sensor arrays. 6.8MB footprint runs alongside existing PLC workloads without any resource contention — no extra hardware required.">
+                  <div class="wf-box-icon">⚙️</div>
+                  <div class="wf-box-name">PLC Sensors</div>
+                </div>
+                <div class="wf-label">OT layer</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="OT/IT Bridge" data-desc="Secure boundary between operational technology (OT) and IT. Data flows in one direction. Maintains Purdue Model security architecture — no inbound connections from IT to OT.">
+                  <div class="wf-box-icon">🌉</div>
+                  <div class="wf-box-name">OT/IT Bridge</div>
+                  <div class="wf-box-sub">One-way</div>
+                </div>
+                <div class="wf-label">Purdue model</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Predictive AI" data-desc="Edge AI model analyzes vibration, temperature, pressure, current draw patterns to predict failures 72-hours before they occur. All inference local on edge controller.">
+                  <div class="wf-box-icon">🧠</div>
+                  <div class="wf-box-name">Predict AI</div>
+                  <div class="wf-box-sub">Edge model</div>
+                </div>
+                <div class="wf-label">Failure forecast</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.4)"
+                  data-tip="Sign & Version" data-desc="Diagnosis and recommended action is cryptographically signed. Versioned so the exact model state that predicted the failure can be reconstructed for post-incident analysis." data-crypto="true">
+                  <div class="wf-box-icon">🔐</div>
+                  <div class="wf-box-name">Sign Action</div>
+                  <div class="crypto-badge">⬡</div>
+                </div>
+                <div class="wf-label">Versioned</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,230,118,0.08);border-color:rgba(0,230,118,0.3)"
+                  data-tip="Auto-Repair or Alert" data-desc="System either autonomously adjusts control parameters (speed, temperature thresholds) or escalates to maintenance team with full diagnostic package. Self-heals when in bounds.">
+                  <div class="wf-box-icon">🔧</div>
+                  <div class="wf-box-name">Auto-Repair</div>
+                  <div class="wf-box-sub">Or alert</div>
+                </div>
+                <div class="wf-label">Self-healing</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Verify Outcome" data-desc="Post-action verification: did the repair work? If performance metrics return to baseline, outcome is signed as successful. If not, instant rollback to previous verified state.">
+                  <div class="wf-box-icon">✅</div>
+                  <div class="wf-box-name">Verify</div>
+                  <div class="wf-box-sub">Or rollback</div>
+                </div>
+                <div class="wf-label">Confirm / revert</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-title">⚙️ Manufacturing Use Cases</div>
+            <div class="use-case-list">
+              <div class="use-case-item">
+                <div class="uc-icon">🏭</div>
+                <div class="uc-text">
+                  <div class="uc-title">Predictive Maintenance at Scale</div>
+                  <div class="uc-desc">10,000 edge instances across a factory floor. Each PLC runs its own VeritasCore agent. Downtime drops from 3,083 hours to 15.4 hours — documented Siemens-equivalent ROI.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">⚡</div>
+                <div class="uc-text">
+                  <div class="uc-title">Energy Grid Autonomy</div>
+                  <div class="uc-desc">Grid load balancing, fault detection, and self-healing for power utilities. Runs isolated per substation — grid failure cannot cascade through a compromised AI layer.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">💧</div>
+                <div class="uc-text">
+                  <div class="uc-title">Water Treatment Monitoring</div>
+                  <div class="uc-desc">Continuous chemical level monitoring and autonomous adjustment. Every setpoint change is signed. Rollback available if water quality degrades — with proof of what changed.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🌾</div>
+                <div class="uc-text">
+                  <div class="uc-title">Agricultural IoT Fleet</div>
+                  <div class="uc-desc">$5–50/device/year pricing model. Thousands of soil sensors, irrigation controllers, climate monitors. All offline capable — runs in remote locations with zero connectivity.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">🔒 Compliance Coverage</div>
+            <div class="compliance-list">
+              <div class="compliance-item">
+                <span class="ci-name">Purdue Model (ICS Security)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">IEC 62443 (OT Security)</span>
+                <span class="ci-status ci-partial">PARTIAL</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">NERC CIP (Energy)</span>
+                <span class="ci-status ci-partial">PARTIAL</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">ISO 13849 (Safety)</span>
+                <span class="ci-status ci-roadmap">ROADMAP</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">Tamper-Evident Change Log</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">Air-Gap / No External Deps</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:var(--red2);border-radius:3px;border:1px solid rgba(255,77,109,0.2)">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:1px">📊 ROI CASE</div>
+              <div style="font-family:var(--body);font-size:11px;color:var(--text);margin-top:4px;line-height:1.5">Siemens IT/OT integration: plant downtime reduced from 3,083 to 15.4 hours. That's a $10M–$50M/year impact for a mid-sized plant. Sell the ROI before selling the technology.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-panel">
+          <div class="panel-header">
+            <span>// LIVE CRYPTOGRAPHIC AUDIT LOG</span>
+            <span class="panel-header-right" style="color:var(--green)">OT EVENTS · VERSIONED · LOCAL</span>
+          </div>
+          <div class="audit-scroll" id="audit-log-manufacturing"></div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════ HEALTHCARE ═══════════════════ -->
+      <div class="vertical-panel" id="panel-healthcare">
+
+        <div class="metrics-grid">
+          <div class="metric-card" style="border-top:2px solid var(--green)">
+            <div class="metric-val" style="color:var(--green)">81%</div>
+            <div class="metric-lbl">Healthcare Orgs with AI Revenue Lift</div>
+            <div class="metric-delta" style="color:var(--teal)">Industry-wide adoption accelerating</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--teal)">
+            <div class="metric-val" style="color:var(--teal)">NATIVE</div>
+            <div class="metric-lbl">HIPAA Compliance</div>
+            <div class="metric-delta" style="color:var(--green)">▲ On-prem · No PHI egress possible</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--gold)">
+            <div class="metric-val" style="color:var(--gold)">FDA</div>
+            <div class="metric-lbl">PCCP Framework Aligned</div>
+            <div class="metric-delta" style="color:var(--mid)">Versioned self-mod = PCCP native</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--red)">
+            <div class="metric-val" style="color:var(--red)">ZERO</div>
+            <div class="metric-lbl">PHI Cloud Exposure</div>
+            <div class="metric-delta" style="color:var(--green)">▲ BYOLLM + air-gap = zero egress</div>
+          </div>
+        </div>
+
+        <div class="workflow-panel">
+          <div class="panel-header">
+            <span>// HIPAA-COMPLIANT CLINICAL AI WORKFLOW</span>
+            <span class="panel-header-right">FDA PCCP · VERSIONED SELF-MOD · ON-PREM</span>
+          </div>
+          <div class="workflow-canvas">
+            <div class="wf-row">
+              <div class="wf-node">
+                <div class="wf-box active" style="background:rgba(0,230,118,0.1);border-color:rgba(0,230,118,0.4)"
+                  data-tip="EHR Data Ingest" data-desc="Patient data ingested from local EHR system. All processing on-premise inside the hospital's network. PHI never transmitted externally — HIPAA requirement satisfied architecturally.">
+                  <div class="wf-box-icon">🏥</div>
+                  <div class="wf-box-name">EHR Ingest</div>
+                </div>
+                <div class="wf-label">On-prem EHR</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="De-identification" data-desc="PHI stripped before AI processing. De-identification audit trail maintained — who accessed what, when, with cryptographic proof. Satisfies HIPAA Privacy Rule.">
+                  <div class="wf-box-icon">🔒</div>
+                  <div class="wf-box-name">De-ID Layer</div>
+                  <div class="wf-box-sub">PHI stripped</div>
+                </div>
+                <div class="wf-label">HIPAA Privacy</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Clinical AI" data-desc="Diagnostic support, drug interaction detection, readmission risk scoring. Model weights and inference stay inside hospital perimeter. No data leaves. Ever.">
+                  <div class="wf-box-icon">🧠</div>
+                  <div class="wf-box-name">Clinical AI</div>
+                  <div class="wf-box-sub">Local model</div>
+                </div>
+                <div class="wf-label">Diagnostic support</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.4)"
+                  data-tip="Sign Recommendation" data-desc="Every clinical recommendation is cryptographically signed before delivery. Creates an immutable record of what AI version, what data, what logic produced this recommendation — satisfying FDA PCCP." data-crypto="true">
+                  <div class="wf-box-icon">🔐</div>
+                  <div class="wf-box-name">Sign Rec.</div>
+                  <div class="crypto-badge">⬡</div>
+                </div>
+                <div class="wf-label">FDA PCCP</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Clinician Review" data-desc="Human clinician always reviews AI recommendation. Oversight hook mandatory — AI cannot take direct clinical action without human approval. Rollback available at this checkpoint.">
+                  <div class="wf-box-icon">👩‍⚕️</div>
+                  <div class="wf-box-name">Clinician</div>
+                  <div class="wf-box-sub">Human gate</div>
+                </div>
+                <div class="wf-label">Required oversight</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,230,118,0.08);border-color:rgba(0,230,118,0.3)"
+                  data-tip="HIPAA Audit Store" data-desc="Full signed audit trail stored locally. Access log, decision log, modification log — all tamper-evident. Satisfies HIPAA Security Rule audit controls and integrity controls natively.">
+                  <div class="wf-box-icon">📁</div>
+                  <div class="wf-box-name">HIPAA Store</div>
+                  <div class="wf-box-sub">Audit controls</div>
+                </div>
+                <div class="wf-label">On-prem only</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-title">🏥 Healthcare Use Cases</div>
+            <div class="use-case-list">
+              <div class="use-case-item">
+                <div class="uc-icon">💊</div>
+                <div class="uc-text">
+                  <div class="uc-title">Drug Interaction Detection</div>
+                  <div class="uc-desc">Real-time monitoring of prescription combinations against local formulary database. AI flags interactions before dispensing, signed and logged for malpractice defense.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🫀</div>
+                <div class="uc-text">
+                  <div class="uc-title">Medical Device Autonomy</div>
+                  <div class="uc-desc">FDA PCCP framework requires pre-specified modification methodology + rollback. Your versioned self-modification architecture satisfies this natively — the only AI system that does.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">📊</div>
+                <div class="uc-text">
+                  <div class="uc-title">Readmission Risk Scoring</div>
+                  <div class="uc-desc">Continuous patient monitoring with self-healing risk models. When model accuracy degrades, system self-repairs and records exactly what changed and why — full liability defense.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🧬</div>
+                <div class="uc-text">
+                  <div class="uc-title">Genomic Analysis (Air-Gapped)</div>
+                  <div class="uc-desc">Genomic data is the most sensitive PHI class. Local processing with zero egress is not a feature — it's the only compliant architecture. Cloud genomics analysis is legally precarious.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">🔒 Compliance Coverage</div>
+            <div class="compliance-list">
+              <div class="compliance-item">
+                <span class="ci-name">HIPAA Security Rule (Audit)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">HIPAA Security Rule (Integrity)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">FDA PCCP (SaMD)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">EU AI Act (High-Risk)</span>
+                <span class="ci-status ci-native">NATIVE · 6 of 10 req</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">21 CFR Part 11 (e-Records)</span>
+                <span class="ci-status ci-partial">PARTIAL</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">HL7 FHIR Audit Events</span>
+                <span class="ci-status ci-roadmap">ROADMAP</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:var(--green2);border-radius:3px;border:1px solid rgba(0,230,118,0.2)">
+              <div style="font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:1px">🔑 COMPETITIVE ANGLE</div>
+              <div style="font-family:var(--body);font-size:11px;color:var(--text);margin-top:4px;line-height:1.5">FDA PCCP requires pre-specified change methodology + rollback procedures. Every other AI vendor treats this as a documentation requirement. You satisfy it architecturally.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-panel">
+          <div class="panel-header">
+            <span>// LIVE CRYPTOGRAPHIC AUDIT LOG</span>
+            <span class="panel-header-right" style="color:var(--green)">HIPAA COMPLIANT · PHI NEVER LOGGED</span>
+          </div>
+          <div class="audit-scroll" id="audit-log-healthcare"></div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════ SOVEREIGN ═══════════════════ -->
+      <div class="vertical-panel" id="panel-sovereign">
+
+        <div class="metrics-grid">
+          <div class="metric-card" style="border-top:2px solid #b478ff">
+            <div class="metric-val" style="color:#b478ff">€480B</div>
+            <div class="metric-lbl">EU AI Value by 2030</div>
+            <div class="metric-delta" style="color:var(--teal)">McKinsey projection · sovereign focus</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--teal)">
+            <div class="metric-val" style="color:var(--teal)">62%</div>
+            <div class="metric-lbl">EU Orgs Seeking Sovereign AI</div>
+            <div class="metric-delta" style="color:var(--green)">▲ GDPR + EU AI Act driver</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--gold)">
+            <div class="metric-val" style="color:var(--gold)">Aug 26</div>
+            <div class="metric-lbl">EU AI Act High-Risk Deadline</div>
+            <div class="metric-delta" style="color:var(--red)">⚠ Compliance window open now</div>
+          </div>
+          <div class="metric-card" style="border-top:2px solid var(--green)">
+            <div class="metric-val" style="color:var(--green)">6/10</div>
+            <div class="metric-lbl">EU AI Act Req. Natively Met</div>
+            <div class="metric-delta" style="color:var(--mid)">Compliance accelerator, not burden</div>
+          </div>
+        </div>
+
+        <div class="workflow-panel">
+          <div class="panel-header">
+            <span>// EU SOVEREIGN AI WORKFLOW — DATA RESIDENCY GUARANTEED</span>
+            <span class="panel-header-right">EU AI ACT ART.12 · GDPR · BYOLLM</span>
+          </div>
+          <div class="workflow-canvas">
+            <div class="wf-row">
+              <div class="wf-node">
+                <div class="wf-box active" style="background:rgba(180,120,255,0.1);border-color:rgba(180,120,255,0.4)"
+                  data-tip="EU Data Source" data-desc="Data ingested from EU-resident sources only. BYOLLM default means local model weights — no inference sent to US cloud providers. GDPR data residency satisfied architecturally.">
+                  <div class="wf-box-icon">🌍</div>
+                  <div class="wf-box-name">EU Data</div>
+                </div>
+                <div class="wf-label">Resident data</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Local Model" data-desc="Customer brings their own LLM or uses locally-hosted open-source model (Llama, Mistral). Zero inference data crosses borders. Satisfies GDPR Chapter V requirements on data transfers.">
+                  <div class="wf-box-icon">🧠</div>
+                  <div class="wf-box-name">Local LLM</div>
+                  <div class="wf-box-sub">BYOLLM</div>
+                </div>
+                <div class="wf-label">No US cloud</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.4)"
+                  data-tip="EU AI Act Logging" data-desc="Automatic logging required by EU AI Act Article 12 for high-risk systems. Cryptographic audit trail satisfies this natively — with tamper-evident proof that logs were not altered." data-crypto="true">
+                  <div class="wf-box-icon">🔐</div>
+                  <div class="wf-box-name">Art.12 Log</div>
+                  <div class="crypto-badge">⬡</div>
+                </div>
+                <div class="wf-label">EU AI Act</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(0,212,200,0.08);border-color:rgba(0,212,200,0.3)"
+                  data-tip="Human Oversight" data-desc="EU AI Act requires human oversight mechanisms for high-risk AI. Oversight hooks are required architecture in VeritasCore — not configurable off. Satisfies Article 14 mandatory human oversight.">
+                  <div class="wf-box-icon">👤</div>
+                  <div class="wf-box-name">Oversight</div>
+                  <div class="wf-box-sub">Art.14</div>
+                </div>
+                <div class="wf-label">Mandatory</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(180,120,255,0.08);border-color:rgba(180,120,255,0.3)"
+                  data-tip="Sovereign Output" data-desc="Decision or output delivered with full provenance: which model version, which data, which logic, which human approved it. All within EU data residency.">
+                  <div class="wf-box-icon">📤</div>
+                  <div class="wf-box-name">Output</div>
+                  <div class="wf-box-sub">Provenance</div>
+                </div>
+                <div class="wf-label">Traceable</div>
+              </div>
+              <div class="wf-arrow"><div class="wf-arrow-line"></div></div>
+              <div class="wf-node">
+                <div class="wf-box" style="background:rgba(240,180,41,0.08);border-color:rgba(240,180,41,0.3)"
+                  data-tip="EU Resident Store" data-desc="All logs, model weights, outputs stored within EU jurisdiction. Regulatory audit access provided through cryptographic proof — no raw data disclosure required.">
+                  <div class="wf-box-icon">🏛️</div>
+                  <div class="wf-box-name">EU Store</div>
+                  <div class="wf-box-sub">GDPR compliant</div>
+                </div>
+                <div class="wf-label">Resident</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-card-title">🌍 Sovereign AI Use Cases</div>
+            <div class="use-case-list">
+              <div class="use-case-item">
+                <div class="uc-icon">🏛️</div>
+                <div class="uc-text">
+                  <div class="uc-title">Government Automation</div>
+                  <div class="uc-desc">EU government agencies automating citizen services, document processing, compliance workflows — with provable data residency and EU AI Act compliance built in.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">🔬</div>
+                <div class="uc-text">
+                  <div class="uc-title">National Research Infrastructure</div>
+                  <div class="uc-desc">Scientific institutions requiring that research data and AI model outputs stay within national jurisdiction. BYOLLM + air-gap = the only compliant architecture.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">📡</div>
+                <div class="uc-text">
+                  <div class="uc-title">Telecom / Critical Infrastructure</div>
+                  <div class="uc-desc">EU telecom operators under NIS2 directive. Network anomaly detection, autonomous traffic management, self-healing routing — all within sovereign perimeter.</div>
+                </div>
+              </div>
+              <div class="use-case-item">
+                <div class="uc-icon">💶</div>
+                <div class="uc-text">
+                  <div class="uc-title">European Central Bank AI</div>
+                  <div class="uc-desc">Same use case as financial vertical but with added EU data sovereignty layer. ECB and national central banks need air-gapped AI that satisfies both FINRA-equivalent rules and GDPR.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="info-card-title">🔒 EU Compliance Coverage</div>
+            <div class="compliance-list">
+              <div class="compliance-item">
+                <span class="ci-name">EU AI Act Article 12 (Logging)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">EU AI Act Article 14 (Oversight)</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">GDPR Data Residency</span>
+                <span class="ci-status ci-native">NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">NIS2 Directive</span>
+                <span class="ci-status ci-partial">PARTIAL</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">EU AI Act High-Risk (all 10)</span>
+                <span class="ci-status ci-partial">6/10 NATIVE</span>
+              </div>
+              <div class="compliance-item">
+                <span class="ci-name">eIDAS 2.0 (Digital Identity)</span>
+                <span class="ci-status ci-roadmap">ROADMAP</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:rgba(180,120,255,0.1);border-radius:3px;border:1px solid rgba(180,120,255,0.2)">
+              <div style="font-family:var(--mono);font-size:9px;color:#b478ff;letter-spacing:1px">⏰ TIMING WINDOW</div>
+              <div style="font-family:var(--body);font-size:11px;color:var(--text);margin-top:4px;line-height:1.5">EU AI Act high-risk obligations active August 2026. Organizations are in procurement NOW. Be the compliant-by-architecture solution before that deadline lands.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-panel">
+          <div class="panel-header">
+            <span>// LIVE CRYPTOGRAPHIC AUDIT LOG</span>
+            <span class="panel-header-right" style="color:var(--green)">GDPR COMPLIANT · EU RESIDENT · ART.12</span>
+          </div>
+          <div class="audit-scroll" id="audit-log-sovereign"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip" id="tooltip">
+  <div class="tt-title" id="tt-title"></div>
+  <div class="tt-desc" id="tt-desc"></div>
+  <div class="tt-badge" id="tt-badge"></div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let currentVertical = 'defense';
+const verticalMeta = {
+  defense:       { title: 'Defense & Intelligence',   subtitle: 'TACTICAL EDGE DEPLOYMENT · SCIFs · DoDIN ENCLAVES · CMMC COMPLIANT' },
+  finance:       { title: 'Financial Services',        subtitle: 'AUTONOMOUS WORKFLOWS · FINRA 2026 · AIR-GAPPED TRADING SYSTEMS' },
+  manufacturing: { title: 'Manufacturing / Critical Infrastructure', subtitle: 'SCADA/ICS · PURDUE MODEL · PLC EDGE DEPLOYMENT · 23% CAGR' },
+  healthcare:    { title: 'Healthcare',                subtitle: 'HIPAA ON-PREM · FDA PCCP · MEDICAL DEVICE AUTONOMY · ZERO PHI EGRESS' },
+  sovereign:     { title: 'EU Sovereign AI',           subtitle: 'EU AI ACT ART.12 · GDPR DATA RESIDENCY · €480B MARKET · AUG 2026' },
+};
+
+// ── Vertical switch ────────────────────────────────────────────────────────
+function switchVertical(v) {
+  currentVertical = v;
+  document.querySelectorAll('.vertical-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`[data-v="${v}"]`).classList.add('active');
+  document.querySelectorAll('.vertical-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${v}`).classList.add('active');
+  document.getElementById('v-title').textContent = verticalMeta[v].title;
+  document.getElementById('v-subtitle').textContent = verticalMeta[v].subtitle;
+}
+
+// ── Clock ──────────────────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent = now.toTimeString().slice(0,8);
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── Hash display ───────────────────────────────────────────────────────────
+const hexChars = '0123456789abcdef';
+function randHex(len) { return Array.from({length:len},()=>hexChars[Math.floor(Math.random()*16)]).join(''); }
+function updateHash() {
+  document.getElementById('hash-display').textContent = `HASH: 0x${randHex(4)}...${randHex(4)}`;
+}
+setInterval(updateHash, 3200);
+
+// ── Tooltip ────────────────────────────────────────────────────────────────
+const tooltip = document.getElementById('tooltip');
+document.querySelectorAll('.wf-box').forEach(box => {
+  box.addEventListener('mouseenter', e => {
+    const tip = box.dataset.tip;
+    const desc = box.dataset.desc;
+    const crypto = box.dataset.crypto;
+    document.getElementById('tt-title').textContent = tip || '';
+    document.getElementById('tt-desc').textContent = desc || '';
+    document.getElementById('tt-badge').textContent = crypto ? '⬡ CRYPTOGRAPHICALLY VERIFIED — every action signed before execution' : '';
+    tooltip.classList.add('show');
+  });
+  box.addEventListener('mousemove', e => {
+    tooltip.style.left = (e.clientX + 16) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+  });
+  box.addEventListener('mouseleave', () => tooltip.classList.remove('show'));
+});
+
+// ── Audit log generator ────────────────────────────────────────────────────
+const auditEvents = {
+  defense: [
+    ['FIELD_TRIGGER', 'Mission intel request initiated — operator alpha-7'],
+    ['INGEST', 'Multi-source data collected: 3 feeds, 2 comms intercepts'],
+    ['AI_ANALYSIS', 'Threat model inference complete — 847ms — local GPU-free'],
+    ['CRYPTO_SIGN', 'Decision signed — hash recorded to immutable log'],
+    ['CMD_REVIEW', 'Commander review gate — awaiting authorization'],
+    ['EXECUTE', 'Authorized action executed — outcome monitoring active'],
+    ['SELF_HEAL', 'Anomaly detected in module v2.1 — self-repair initiated'],
+    ['ROLLBACK', 'Repair verified — signed v2.2 committed to audit chain'],
+    ['AUDIT_WRITE', 'Chain written to local tamper-evident store — no egress'],
+  ],
+  finance: [
+    ['MARKET_FEED', 'Market data stream ingested — internal feed only'],
+    ['ANOMALY_AI', 'Transaction pattern analysis — 1,247 events/sec'],
+    ['ALERT', 'Anomaly flagged: account #4829 — velocity threshold breach'],
+    ['CRYPTO_SIGN', 'Fraud detection decision signed — FINRA 4511 chain updated'],
+    ['COMPLIANCE', 'Automated compliance check passed — action within bounds'],
+    ['EXECUTE', 'Transaction hold applied — reversible state recorded'],
+    ['AUDIT_WRITE', 'Reconstructable activity chain written — regulator-ready'],
+    ['MODEL_UPDATE', 'Risk model self-updated — new version signed and committed'],
+    ['ROLLBACK_TEST', 'Rollback integrity test passed — prior state recoverable'],
+  ],
+  manufacturing: [
+    ['PLC_SENSOR', 'Vibration anomaly detected: Motor-A3 — 0.87σ deviation'],
+    ['OT_BRIDGE', 'Data forwarded through one-way OT/IT boundary'],
+    ['PREDICT_AI', 'Failure probability: 94% within 72h — bearing wear pattern'],
+    ['CRYPTO_SIGN', 'Maintenance recommendation signed and versioned'],
+    ['AUTO_REPAIR', 'Speed reduction applied: 1,450rpm → 1,200rpm'],
+    ['VERIFY', 'Temperature nominal after adjustment — fix verified'],
+    ['SIGN_OUTCOME', 'Successful repair signed — v3.7 committed to audit chain'],
+    ['PREVENT', 'Estimated downtime prevented: 48h — $240,000 avoided'],
+    ['AUDIT_WRITE', 'OT event log written — local store only'],
+  ],
+  healthcare: [
+    ['EHR_INGEST', 'Patient encounter data ingested — on-prem EHR'],
+    ['DE_ID', 'PHI stripped — de-identification audit entry created'],
+    ['CLINICAL_AI', 'Drug interaction analysis complete — 3 interactions flagged'],
+    ['CRYPTO_SIGN', 'Clinical recommendation signed — FDA PCCP chain updated'],
+    ['CLINICIAN', 'Clinician review gate — Dr. Martinez reviewing'],
+    ['APPROVED', 'Recommendation approved — action taken with provenance'],
+    ['HIPAA_LOG', 'Access event logged — audit controls satisfied'],
+    ['MODEL_VER', 'Clinical model v4.1 — versioned for FDA PCCP compliance'],
+    ['INTEGRITY', 'Audit integrity check passed — no tampering detected'],
+  ],
+  sovereign: [
+    ['EU_DATA', 'Data ingested — EU-resident source confirmed'],
+    ['LOCAL_LLM', 'Inference routed to local Mistral instance — no US cloud'],
+    ['ART12_LOG', 'EU AI Act Article 12 log entry created'],
+    ['OVERSIGHT', 'Human oversight checkpoint recorded — Article 14'],
+    ['GDPR_CHECK', 'Data residency verified — all processing within EU'],
+    ['OUTPUT', 'Decision delivered with full EU-resident provenance'],
+    ['SOVEREIGNTY', 'Zero cross-border data flow confirmed — GDPR Chapter V'],
+    ['EU_STORE', 'Signed chain written to EU-resident store'],
+    ['COMPLIANCE', 'EU AI Act high-risk compliance: 6/10 requirements satisfied'],
+  ]
+};
+
+function addAuditLine(vertical) {
+  const container = document.getElementById(`audit-log-${vertical}`);
+  if (!container) return;
+  const events = auditEvents[vertical];
+  const ev = events[Math.floor(Math.random() * events.length)];
+  const now = new Date();
+  const time = now.toTimeString().slice(0,8);
+  const hash = `0x${randHex(6)}`;
+  const statusColors = {
+    CRYPTO_SIGN: 'color:var(--gold)', SIGN_OUTCOME: 'color:var(--gold)',
+    ROLLBACK: 'color:var(--teal)', SELF_HEAL: 'color:var(--teal)',
+    ALERT: 'color:var(--red)', ANOMALY: 'color:var(--red)',
+    EXECUTE: 'color:var(--green)', APPROVED: 'color:var(--green)', PREVENT: 'color:var(--green)',
+  };
+  const sc = statusColors[ev[0]] || 'color:var(--mid)';
+  const div = document.createElement('div');
+  div.className = 'audit-line';
+  div.innerHTML = `<span class="al-time">${time}</span><span class="al-hash">${hash}</span><span class="al-event">${ev[1]}</span><span class="al-status" style="${sc}">${ev[0]}</span>`;
+  container.insertBefore(div, container.firstChild);
+  while (container.children.length > 20) container.removeChild(container.lastChild);
+}
+
+// Start audit logs
+Object.keys(auditEvents).forEach(v => {
+  // Pre-populate
+  for (let i = 0; i < 6; i++) addAuditLine(v);
+  // Live updates
+  setInterval(() => addAuditLine(v), 1800 + Math.random() * 2000);
+});
+
+// ── Node active animation cycling ─────────────────────────────────────────
+function cycleActiveNodes() {
+  const panel = document.getElementById(`panel-${currentVertical}`);
+  const nodes = panel ? panel.querySelectorAll('.wf-box') : [];
+  if (!nodes.length) return;
+  nodes.forEach(n => n.classList.remove('active'));
+  const idx = Math.floor(Date.now() / 2000) % nodes.length;
+  nodes[idx].classList.add('active');
+}
+setInterval(cycleActiveNodes, 2000);
+</script>
+</body>
+</html>
