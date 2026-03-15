@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<!--
+VeritasCore™ Cryptographic Integrity Feature
+Copyright © 2026 DAPR. All Rights Reserved.
+Contact: dapr.team@gmail.com
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cryptographic Integrity - VeritasCore™</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700;800&family=Exo+2:wght@300;400;600;800&display=swap');
+
+:root {
+  --navy: #050e1a;
+  --navy2: #0a1628;
+  --navy3: #0f1f38;
+  --card: #0d1b2e;
+  --teal: #00d4c8;
+  --teal2: #00a89e;
+  --teal3: rgba(0,212,200,0.12);
+  --gold: #f0b429;
+  --text: #c8d8e8;
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Rajdhani', sans-serif;
+  --body: 'Exo 2', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: var(--teal3);
+}
+
+.logo-text {
+  font-family: var(--head);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--head);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover { color: var(--teal); }
+
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: var(--head);
+  font-size: 4rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.hero .subtitle {
+  font-size: 1.8rem;
+  color: var(--teal);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  opacity: 0.9;
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 2rem;
+}
+
+.section h2 {
+  font-family: var(--head);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.section h3 {
+  font-family: var(--head);
+  font-size: 1.8rem;
+  margin: 2rem 0 1rem;
+  color: var(--teal);
+}
+
+.diagram-container {
+  background: var(--card);
+  border: 2px solid rgba(0,212,200,0.3);
+  border-radius: 12px;
+  padding: 3rem;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.diagram-title {
+  font-family: var(--head);
+  font-size: 1.5rem;
+  color: var(--teal);
+  text-align: center;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+.flow-step {
+  background: var(--navy3);
+  border: 2px solid var(--teal);
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,212,200,0.3); }
+  50% { box-shadow: 0 0 25px rgba(0,212,200,0.6); }
+}
+
+.flow-step::after {
+  content: '↓';
+  position: absolute;
+  bottom: -3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+  color: var(--teal);
+  opacity: 0.5;
+}
+
+.flow-step:last-child::after {
+  display: none;
+}
+
+.step-number {
+  position: absolute;
+  top: -15px;
+  left: 20px;
+  background: var(--teal);
+  color: var(--navy);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.step-title {
+  font-family: var(--head);
+  font-size: 1.3rem;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+  padding-left: 50px;
+}
+
+.step-content {
+  padding-left: 50px;
+  opacity: 0.9;
+}
+
+.code-block {
+  background: #000;
+  border: 1px solid var(--teal);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.code-block pre {
+  margin: 0;
+  color: var(--teal);
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.comparison-card {
+  background: var(--card);
+  border: 2px solid rgba(0,212,200,0.2);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.comparison-card.veritascore {
+  border-color: var(--teal);
+  background: var(--navy3);
+}
+
+.comparison-card h4 {
+  font-family: var(--head);
+  font-size: 1.5rem;
+  color: var(--teal);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.comparison-card.competitors h4 {
+  color: #ff4d6d;
+}
+
+.benefit-list {
+  list-style: none;
+  padding: 0;
+}
+
+.benefit-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(0,212,200,0.1);
+}
+
+.benefit-list li:last-child {
+  border-bottom: none;
+}
+
+.benefit-list li::before {
+  content: '✓';
+  color: var(--teal);
+  font-weight: 700;
+  margin-right: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.comparison-card.competitors .benefit-list li::before {
+  content: '✗';
+  color: #ff4d6d;
+}
+
+.use-case-box {
+  background: var(--navy3);
+  border-left: 4px solid var(--teal);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.use-case-box h4 {
+  font-family: var(--head);
+  color: var(--teal);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+.tech-specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.spec-card {
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.2);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.spec-value {
+  font-family: var(--mono);
+  font-size: 2.5rem;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.spec-label {
+  opacity: 0.8;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid rgba(0,212,200,0.2);
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="fill: var(--teal);">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+      </svg>
+    </div>
+    <div class="logo-text">VERITASCORE™</div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#features">All Features</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>🔐 CRYPTOGRAPHIC INTEGRITY</h1>
+  <div class="subtitle">Mathematically Provable AI Verification</div>
+  <p>
+    VeritasCore's cryptographic integrity system is the first commercial implementation of 
+    cryptographically signed autonomous code modification. Every AI action is mathematically 
+    verified - creating an immutable audit trail that satisfies the most demanding regulatory 
+    frameworks.
+  </p>
+</section>
+
+<section class="section">
+  <h2>What Is Cryptographic Integrity?</h2>
+  <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+    Cryptographic integrity means every modification the AI makes to itself is:
+  </p>
+  
+  <div class="tech-specs">
+    <div class="spec-card">
+      <div class="spec-value">SIGNED</div>
+      <div class="spec-label">Cryptographically signed with SHA-256 hash</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">VERSIONED</div>
+      <div class="spec-label">Every version tracked with timestamps</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">AUDITABLE</div>
+      <div class="spec-label">Complete history of all changes</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">PROVABLE</div>
+      <div class="spec-label">Mathematical proof of what ran</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>How It Works: The Cryptographic Loop</h2>
+  
+  <div class="diagram-container">
+    <div class="diagram-title">VeritasCore Cryptographic Modification Cycle</div>
+    
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="step-number">1</div>
+        <div class="step-title">AI Detects Need for Modification</div>
+        <div class="step-content">
+          The autonomous agent identifies a need to modify its own code - whether to fix a bug, 
+          optimize performance, or adapt to new requirements.
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="step-number">2</div>
+        <div class="step-title">Generate Proposed Change</div>
+        <div class="step-content">
+          AI generates the proposed code modification. The change is held in a staging area and 
+          NOT applied immediately.
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="step-number">3</div>
+        <div class="step-title">Cryptographic Signing</div>
+        <div class="step-content">
+          The modification is hashed using SHA-256 and signed with a cryptographic key. This creates 
+          an immutable fingerprint of the exact change being made.
+        </div>
+        <div class="code-block">
+          <pre>HASH: sha256(modified_code)
+SIGNATURE: sign(hash, private_key)
+TIMESTAMP: 2026-03-15T11:24:33Z
+VERSION: v1.2.47</pre>
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="step-number">4</div>
+        <div class="step-title">Audit Log Entry</div>
+        <div class="step-content">
+          Before applying the change, a permanent entry is written to the audit log containing: 
+          the hash, signature, timestamp, version number, reason for change, and the AI's reasoning.
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="step-number">5</div>
+        <div class="step-title">Apply Modification</div>
+        <div class="step-content">
+          Only AFTER signing and logging does the modification actually execute. The system now 
+          runs the new code version.
+        </div>
+      </div>
+      
+      <div class="flow-step">
+        <div class="step-number">6</div>
+        <div class="step-title">Performance Monitoring</div>
+        <div class="step-content">
+          The system monitors whether the modification improved performance. If performance 
+          degrades, automatic rollback to previous signed version occurs.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Why This Is Commercially Unique</h2>
+  
+  <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+    As of early 2026, <strong>no commercial AI agent product</strong> combines self-modifying 
+    code with cryptographic verification and versioned rollback. Competitors offer autonomous 
+    agents, but none provide mathematical proof of integrity.
+  </p>
+  
+  <div class="comparison-grid">
+    <div class="comparison-card veritascore">
+      <h4>VeritasCore™</h4>
+      <ul class="benefit-list">
+        <li>Every modification cryptographically signed</li>
+        <li>Complete audit trail with SHA-256 hashes</li>
+        <li>Versioned rollback to any prior state</li>
+        <li>Mathematical proof of what code ran</li>
+        <li>Automatic logging before execution</li>
+        <li>Immutable timestamp for every change</li>
+        <li>Regulatory compliance built-in</li>
+      </ul>
+    </div>
+    
+    <div class="comparison-card competitors">
+      <h4>Competitors</h4>
+      <ul class="benefit-list">
+        <li>Black-box AI modifications</li>
+        <li>Limited or no audit trails</li>
+        <li>Manual rollback only</li>
+        <li>No cryptographic verification</li>
+        <li>Logging optional or incomplete</li>
+        <li>No integrity proof</li>
+        <li>Compliance retrofitted as add-on</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Regulatory Compliance Native</h2>
+  
+  <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+    Cryptographic integrity satisfies <strong>six major regulatory frameworks</strong> through 
+    a single unified architecture:
+  </p>
+  
+  <div class="use-case-box">
+    <h4>✓ EU AI Act Article 12</h4>
+    <p>
+      <strong>Requirement:</strong> "Automatic logging and keeping of records of events"
+    </p>
+    <p>
+      <strong>How VeritasCore Satisfies:</strong> Every AI modification is automatically logged 
+      with cryptographic signature BEFORE execution. Logs are immutable and tamper-evident.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>✓ FINRA Rule 4511</h4>
+    <p>
+      <strong>Requirement:</strong> "Reconstructable activity chains" for autonomous AI
+    </p>
+    <p>
+      <strong>How VeritasCore Satisfies:</strong> Complete audit trail allows reconstruction of 
+      exact code state at any point in time. Hash chain proves no modifications were hidden.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>✓ HIPAA Security Rule</h4>
+    <p>
+      <strong>Requirement:</strong> Audit controls (§164.312) and integrity controls
+    </p>
+    <p>
+      <strong>How VeritasCore Satisfies:</strong> Cryptographic signing provides integrity 
+      controls. Comprehensive logging satisfies audit requirements. Tamper-evident design 
+      detects any unauthorized modification.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>✓ SOC 2 Type II (CC7)</h4>
+    <p>
+      <strong>Requirement:</strong> Tamper-evident change management
+    </p>
+    <p>
+      <strong>How VeritasCore Satisfies:</strong> Any attempt to modify code without proper 
+      signing breaks the hash chain and is immediately detectable. Change management is 
+      cryptographically enforced.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>✓ FedRAMP</h4>
+    <p>
+      <strong>Requirement:</strong> Integrity verification against unauthorized modification
+    </p>
+    <p>
+      <strong>How VeritasCore Satisfies:</strong> SHA-256 hashing provides integrity verification. 
+      Signature validation proves only authorized keys signed modifications.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>✓ FDA PCCP</h4>
+    <p>
+      <strong>Requirement:</strong> Predetermined Change Control Plan for medical device software
+    </p>
+    <p>
+      <strong>How VeritasCore Satisfies:</strong> Pre-specified modification methodology. Versioned 
+      documentation of changes. Rollback procedures for patient safety.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Real-World Use Cases</h2>
+  
+  <div class="use-case-box">
+    <h4>🏛️ Central Bank AI Analysis</h4>
+    <p>
+      A national central bank uses VeritasCore for economic policy analysis. The cryptographic 
+      audit trail proves to parliament exactly what AI code analyzed economic data and when. 
+      Mathematical proof prevents any claims of AI manipulation.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>⚔️ Defense Intelligence Analysis</h4>
+    <p>
+      Intelligence agencies use VeritasCore for autonomous ISR analysis. Cryptographic signatures 
+      provide chain of custody for AI-generated intelligence. If AI flags a threat, the hash 
+      proves exactly what version of the AI made that determination.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>💊 Medical Device Autonomy</h4>
+    <p>
+      A medical device manufacturer embeds VeritasCore in autonomous devices. FDA submissions 
+      include cryptographic proof of device software modifications. In liability proceedings, 
+      hash chain proves exactly what code was running when.
+    </p>
+  </div>
+  
+  <div class="use-case-box">
+    <h4>💹 Algorithmic Trading Oversight</h4>
+    <p>
+      A hedge fund uses VeritasCore for autonomous trading. FINRA examination requires proof 
+      of what trading algorithm was active on specific dates. Cryptographic audit trail provides 
+      that proof with mathematical certainty.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Technical Implementation</h2>
+  
+  <h3>Cryptographic Primitives Used</h3>
+  
+  <div class="code-block">
+    <pre>// Hash Algorithm
+SHA-256 (256-bit cryptographic hash)
+
+// Signature Scheme  
+Ed25519 (Elliptic curve digital signature)
+
+// Key Management
+Shamir Secret Sharing (2-of-2 key split)
+TPM integration for hardware key storage
+
+// Timestamp
+RFC 3161 compliant timestamping
+NTP-synchronized UTC timestamps
+
+// Audit Log
+Append-only data structure
+Merkle tree for batch verification</pre>
+  </div>
+  
+  <h3>Performance Impact</h3>
+  
+  <div class="tech-specs">
+    <div class="spec-card">
+      <div class="spec-value">&lt;10ms</div>
+      <div class="spec-label">Signing latency per modification</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">&lt;1%</div>
+      <div class="spec-label">CPU overhead from verification</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">~200KB</div>
+      <div class="spec-label">Audit log per 1000 modifications</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">ZERO</div>
+      <div class="spec-label">Network latency (offline capable)</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>AI Insurance Premium Reduction</h2>
+  
+  <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+    AIUC (Artificial Intelligence Underwriting Company) projects a <strong>$500B AI insurance market by 2030</strong>. 
+    Systems with cryptographic audit trails are:
+  </p>
+  
+  <div class="tech-specs">
+    <div class="spec-card">
+      <div class="spec-value">20-40%</div>
+      <div class="spec-label">Lower insurance premiums</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">MORE</div>
+      <div class="spec-label">Insurable in high-risk sectors</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-value">STRONGER</div>
+      <div class="spec-label">Liability defense</div>
+    </div>
+  </div>
+  
+  <p style="font-size: 1.1rem; margin-top: 2rem; opacity: 0.9;">
+    Major insurers like AIG are actively seeking to <strong>exclude AI liabilities</strong> from 
+    standard policies, viewing autonomous AI as "unpredictable and opaque." VeritasCore's 
+    cryptographic proof makes AI predictable and transparent - directly addressing insurer concerns.
+  </p>
+</section>
+
+<section class="section">
+  <h2>Get Started with Cryptographic Integrity</h2>
+  
+  <div style="text-align: center; padding: 3rem; background: var(--card); border: 2px solid var(--teal); border-radius: 12px;">
+    <h3 style="margin-bottom: 1rem;">Ready to deploy provable AI integrity?</h3>
+    <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+      Contact us for a technical demonstration of VeritasCore's cryptographic verification system.
+    </p>
+    <a href="mailto:dapr.team@gmail.com?subject=Cryptographic Integrity Demo Request" 
+       style="display: inline-block; padding: 1rem 2.5rem; background: var(--teal); color: var(--navy); text-decoration: none; font-family: var(--head); font-size: 1.1rem; font-weight: 600; border-radius: 8px; text-transform: uppercase; letter-spacing: 1px;">
+      Request Technical Demo
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.</p>
+  <p>VeritasCore™ is a trademark of DAPR.</p>
+</footer>
+
+</body>
+</html>
