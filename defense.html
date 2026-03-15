@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════════════════
+VeritasCore™ Defense & Intelligence Solutions
+Copyright © 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.
+Contact: dapr.team@gmail.com
+═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Defense & Intelligence Solutions - VeritasCore™</title>
+<meta name="description" content="VeritasCore for defense and intelligence. Air-gapped tactical edge deployment, CMMC compliant, FedRAMP ready. Built for SCIFs and classified environments.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700;800&family=Exo+2:wght@300;400;600;800&display=swap');
+
+:root {
+  --navy: #050e1a;
+  --navy2: #0a1628;
+  --navy3: #0f1f38;
+  --card: #0d1b2e;
+  --teal: #00d4c8;
+  --teal2: #00a89e;
+  --teal3: rgba(0,212,200,0.12);
+  --gold: #f0b429;
+  --red: #ff4d6d;
+  --green: #00e676;
+  --text: #c8d8e8;
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Rajdhani', sans-serif;
+  --body: 'Exo 2', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: var(--teal3);
+}
+
+.logo-text {
+  font-family: var(--head);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--head);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--teal);
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--head);
+  font-size: 4rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.hero .subtitle {
+  font-size: 1.5rem;
+  color: var(--teal);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-family: var(--head);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 1rem;
+}
+
+.btn-primary {
+  background: var(--teal);
+  color: var(--navy);
+  box-shadow: 0 0 20px rgba(0,212,200,0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(0,212,200,0.6);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--teal);
+  border: 2px solid var(--teal);
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 2rem;
+}
+
+.section h2 {
+  font-family: var(--head);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.2);
+  padding: 2rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  border-color: var(--teal);
+  box-shadow: 0 0 30px rgba(0,212,200,0.2);
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  font-family: var(--head);
+  font-size: 1.5rem;
+  color: var(--teal);
+  margin-bottom: 1rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2rem;
+  background: var(--card);
+  border: 1px solid rgba(0,212,200,0.2);
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-family: var(--mono);
+  font-size: 3rem;
+  color: var(--teal);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+.compliance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.compliance-badge {
+  background: var(--navy3);
+  border: 1px solid rgba(0,212,200,0.3);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.compliance-badge .icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.compliance-badge .title {
+  font-family: var(--head);
+  color: var(--teal);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.use-case {
+  background: var(--navy3);
+  border-left: 4px solid var(--teal);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.use-case h4 {
+  font-family: var(--head);
+  color: var(--teal);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid rgba(0,212,200,0.2);
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="fill: var(--teal);">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+      </svg>
+    </div>
+    <div class="logo-text">VERITASCORE™</div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>🛡️ DEFENSE & INTELLIGENCE</h1>
+  <div class="subtitle">Air-Gapped Tactical Edge Deployment</div>
+  <p>
+    VeritasCore delivers autonomous AI capability where competitors cannot operate: classified SCIFs, 
+    DoDIN enclaves, tactical field equipment, and air-gapped environments. Built specifically for 
+    defense and intelligence workloads requiring provable integrity and zero external dependencies.
+  </p>
+  <a href="#contact" class="btn btn-primary">Request Classified Briefing</a>
+  <a href="control-panel.html#defense" class="btn btn-secondary">View Technical Specs</a>
+</section>
+
+<section class="section">
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-number">$13.4B</div>
+      <div class="stat-label">DoD AI Budget FY2026</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">6.8MB</div>
+      <div class="stat-label">RAM Footprint - Tactical Edge Ready</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Air-Gapped Operation</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">$200M</div>
+      <div class="stat-label">Max Contract Size (Pentagon, July 2025)</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Why Defense Contractors Choose VeritasCore</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>⚔️ Tactical Edge Deployment</h3>
+      <p>
+        6.8MB footprint enables deployment on field equipment, embedded systems, and edge devices 
+        where cloud-dependent solutions cannot function. Operates on hardware competitors require 
+        2-8GB to run.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🔒 Air-Gapped by Design</h3>
+      <p>
+        Zero external network dependencies. Operates in classified SCIFs, submarines, aircraft, 
+        and forward operating bases. BYOLLM architecture means no internet required for AI inference.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>📜 CMMC Level 2+ Ready</h3>
+      <p>
+        Built-in audit logging, cryptographic integrity verification, and RBAC support. Designed 
+        to satisfy CMMC requirements for defense contractors handling CUI.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🎯 FedRAMP Authorization Path</h3>
+      <p>
+        Architecture designed for FedRAMP compliance. Can deploy on AWS GovCloud or Azure Government 
+        for accelerated authorization timeline.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🔄 Deterministic Rollback</h3>
+      <p>
+        Every autonomous action is versioned and reversible with mathematical proof. Critical for 
+        defense applications where autonomous actions must be auditable and reversible.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>⚡ Real-Time Performance</h3>
+      <p>
+        Ultra-lightweight architecture delivers real-time response on tactical hardware. No GPU 
+        required - runs on existing field equipment.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Defense Use Cases</h2>
+  
+  <div class="use-case">
+    <h4>🎯 Autonomous ISR Analysis</h4>
+    <p>
+      <strong>Challenge:</strong> Intelligence analysts overwhelmed by sensor data volume from UAVs, satellites, 
+      and ground sensors. Cloud processing creates unacceptable latency and data sovereignty issues.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Deploy autonomous analysis agents directly on tactical edge hardware. 
+      Process sensor feeds locally with zero data egress. Cryptographic audit trail proves what the AI detected, 
+      when, and why - critical for actionable intelligence.
+    </p>
+    <p>
+      <strong>Result:</strong> Real-time ISR analysis in air-gapped environments. Analysts review AI-flagged 
+      anomalies instead of raw feeds. 70% reduction in analyst workload.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>🛡️ Cyber Defense Automation</h4>
+    <p>
+      <strong>Challenge:</strong> Network defenders face advanced persistent threats requiring immediate response. 
+      Cloud-dependent AI introduces unacceptable risk of compromise.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Autonomous cyber defense agents detect and respond to threats within 
+      air-gapped networks. Self-modifying capability adapts to new attack vectors. Versioned rollback ensures 
+      defensive actions can be audited and reversed if needed.
+    </p>
+    <p>
+      <strong>Result:</strong> Mean time to detection reduced from 18 minutes to under 2 minutes. Zero data 
+      exfiltration risk. Complete audit trail for after-action review.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>🚁 Autonomous Vehicle Coordination</h4>
+    <p>
+      <strong>Challenge:</strong> Coordinating swarms of autonomous vehicles (UAVs, UGVs, USVs) requires real-time 
+      decision-making at the tactical edge without connectivity to cloud infrastructure.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Deploy coordination agents on tactical edge controllers. 6.8MB footprint 
+      enables deployment on space/weight-constrained platforms. Operates completely offline with local AI models.
+    </p>
+    <p>
+      <strong>Result:</strong> Swarm coordination without cloud dependency. Operates in GPS-denied and 
+      communications-denied environments. Cryptographic proof of autonomous decisions for ROE compliance.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>📡 SIGINT Processing</h4>
+    <p>
+      <strong>Challenge:</strong> Signals intelligence generates massive data volumes requiring AI analysis. 
+      Cloud processing violates classification requirements.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Process SIGINT entirely within SCIF using air-gapped VeritasCore 
+      deployment. Local LLM analyzes intercepts without data egress. Cryptographic audit satisfies intelligence 
+      oversight requirements.
+    </p>
+    <p>
+      <strong>Result:</strong> AI-powered SIGINT analysis in classified environments. Zero cloud dependency. 
+      Complete audit trail for congressional oversight.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Compliance Framework</h2>
+  
+  <div class="compliance-grid">
+    <div class="compliance-badge">
+      <div class="icon">✓</div>
+      <div class="title">CMMC Level 2+</div>
+      <div>Built-in audit logging and access controls</div>
+    </div>
+    
+    <div class="compliance-badge">
+      <div class="icon">✓</div>
+      <div class="title">FedRAMP Ready</div>
+      <div>Architecture designed for authorization</div>
+    </div>
+    
+    <div class="compliance-badge">
+      <div class="icon">✓</div>
+      <div class="title">NIST 800-171</div>
+      <div>CUI protection controls native</div>
+    </div>
+    
+    <div class="compliance-badge">
+      <div class="icon">✓</div>
+      <div class="title">IL4/IL5</div>
+      <div>Impact Level certification path</div>
+    </div>
+    
+    <div class="compliance-badge">
+      <div class="icon">✓</div>
+      <div class="title">ITAR Compliant</div>
+      <div>Export control ready</div>
+    </div>
+    
+    <div class="compliance-badge">
+      <div class="icon">✓</div>
+      <div class="title">DoDIN APL</div>
+      <div>Approved Products List pathway</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Technical Specifications for Defense Deployment</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>Hardware Requirements</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ 6.8MB RAM minimum</li>
+        <li style="margin: 0.5rem 0;">✓ No GPU required</li>
+        <li style="margin: 0.5rem 0;">✓ x86 or ARM architecture</li>
+        <li style="margin: 0.5rem 0;">✓ Runs on existing tactical hardware</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Network Requirements</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Zero internet dependency</li>
+        <li style="margin: 0.5rem 0;">✓ Operates completely air-gapped</li>
+        <li style="margin: 0.5rem 0;">✓ Optional DoDIN connectivity</li>
+        <li style="margin: 0.5rem 0;">✓ Local LLM integration (Ollama, etc.)</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Security Features</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Cryptographic signing of all modifications</li>
+        <li style="margin: 0.5rem 0;">✓ Versioned rollback with audit trail</li>
+        <li style="margin: 0.5rem 0;">✓ RBAC and MFA support</li>
+        <li style="margin: 0.5rem 0;">✓ Zero telemetry / zero data egress</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Deployment Options</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Bare metal installation</li>
+        <li style="margin: 0.5rem 0;">✓ Docker / Kubernetes</li>
+        <li style="margin: 0.5rem 0;">✓ AWS GovCloud / Azure Government</li>
+        <li style="margin: 0.5rem 0;">✓ Classified SCIF deployment</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Pricing for Defense Contractors</h2>
+  
+  <div class="card" style="background: var(--navy3); border: 2px solid var(--teal); padding: 3rem; text-align: center;">
+    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Government/Defense Tier</h3>
+    <div style="font-family: var(--mono); font-size: 3rem; color: var(--teal); margin: 2rem 0;">$200K - $2M+ annually</div>
+    
+    <div style="text-align: left; max-width: 600px; margin: 2rem auto;">
+      <h4 style="color: var(--teal); margin-bottom: 1rem;">Includes:</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Air-gapped certified deployment</li>
+        <li style="margin: 0.5rem 0;">✓ FedRAMP/CMMC compliance assistance</li>
+        <li style="margin: 0.5rem 0;">✓ Dedicated support team with security clearance</li>
+        <li style="margin: 0.5rem 0;">✓ Custom security hardening for your environment</li>
+        <li style="margin: 0.5rem 0;">✓ Source code escrow</li>
+        <li style="margin: 0.5rem 0;">✓ On-site training and implementation</li>
+        <li style="margin: 0.5rem 0;">✓ Classified briefings available</li>
+        <li style="margin: 0.5rem 0;">✓ Priority feature development</li>
+      </ul>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+      <a href="mailto:dapr.team@gmail.com?subject=Defense Contract Inquiry" class="btn btn-primary">Request Classified Briefing</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <h2>Start Your Defense Deployment</h2>
+  <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+      Contact us for a classified briefing on VeritasCore's capabilities for defense and intelligence applications.
+    </p>
+    
+    <div style="background: var(--card); padding: 2rem; border: 1px solid rgba(0,212,200,0.2); border-radius: 8px;">
+      <h3 style="color: var(--teal); margin-bottom: 1rem;">Defense & Intelligence Contact</h3>
+      <p style="margin: 1rem 0;">
+        <strong>Email:</strong> <a href="mailto:dapr.team@gmail.com" style="color: var(--teal); text-decoration: none;">dapr.team@gmail.com</a>
+      </p>
+      <p style="margin: 1rem 0;">
+        <strong>Subject:</strong> Defense Contract Inquiry - [Your Organization]
+      </p>
+      <p style="margin: 1rem 0; opacity: 0.8; font-size: 0.9rem;">
+        Classified briefings available for cleared personnel. NDA required for detailed technical discussions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.</p>
+  <p>VeritasCore™ is a trademark of DAPR.</p>
+</footer>
+
+</body>
+</html>

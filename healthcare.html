@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════════════════
+VeritasCore™ Healthcare Solutions
+Copyright © 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.
+Contact: dapr.team@gmail.com
+═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthcare Solutions - VeritasCore™</title>
+<meta name="description" content="VeritasCore for healthcare. HIPAA-compliant, FDA PCCP native, zero PHI egress. Built for medical device autonomy and on-premise healthcare AI.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700;800&family=Exo+2:wght@300;400;600;800&display=swap');
+
+:root {
+  --navy: #050e1a;
+  --navy2: #0a1628;
+  --navy3: #0f1f38;
+  --card: #0d1b2e;
+  --teal: #00d4c8;
+  --green: #00e676;
+  --text: #c8d8e8;
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Rajdhani', sans-serif;
+  --body: 'Exo 2', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(0,212,200,0.12);
+}
+
+.logo-text {
+  font-family: var(--head);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--head);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover { color: var(--teal); }
+
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--head);
+  font-size: 4rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.hero .subtitle {
+  font-size: 1.5rem;
+  color: var(--green);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-family: var(--head);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 1rem;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: var(--navy);
+  box-shadow: 0 0 20px rgba(0,230,118,0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(0,230,118,0.6);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--green);
+  border: 2px solid var(--green);
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 2rem;
+}
+
+.section h2 {
+  font-family: var(--head);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(0,230,118,0.2);
+  padding: 2rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 30px rgba(0,230,118,0.2);
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  font-family: var(--head);
+  font-size: 1.5rem;
+  color: var(--green);
+  margin-bottom: 1rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2rem;
+  background: var(--card);
+  border: 1px solid rgba(0,230,118,0.2);
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-family: var(--mono);
+  font-size: 3rem;
+  color: var(--green);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+.use-case {
+  background: var(--navy3);
+  border-left: 4px solid var(--green);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.use-case h4 {
+  font-family: var(--head);
+  color: var(--green);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid rgba(0,212,200,0.2);
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="fill: var(--teal);">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+      </svg>
+    </div>
+    <div class="logo-text">VERITASCORE™</div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>🏥 HEALTHCARE</h1>
+  <div class="subtitle">HIPAA-Compliant AI with Zero PHI Egress</div>
+  <p>
+    VeritasCore delivers autonomous AI for healthcare with built-in HIPAA compliance, FDA PCCP native support, 
+    and zero patient data egress. On-premise deployment ensures complete data sovereignty while enabling 
+    AI-powered clinical decision support, medical device autonomy, and operational optimization.
+  </p>
+  <a href="#contact" class="btn btn-primary">Schedule Healthcare Demo</a>
+  <a href="control-panel.html#healthcare" class="btn btn-secondary">View Compliance Details</a>
+</section>
+
+<section class="section">
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-number">81%</div>
+      <div class="stat-label">Healthcare Orgs Report AI Revenue Lift</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">ZERO</div>
+      <div class="stat-label">PHI Egress - On-Premise Only</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">FDA</div>
+      <div class="stat-label">PCCP Native Support</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">HIPAA</div>
+      <div class="stat-label">Security Rule Compliant</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Why Healthcare Organizations Choose VeritasCore</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>🔒 HIPAA Security Rule Native</h3>
+      <p>
+        Audit controls and integrity controls built into core architecture. Every AI action logged 
+        with cryptographic signature. Satisfies HIPAA Security Rule §164.312 requirements natively.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🚫 Zero PHI Egress</h3>
+      <p>
+        On-premise deployment with local LLM integration ensures patient data never leaves your 
+        infrastructure. Architecturally impossible for PHI to reach cloud providers. Complete data sovereignty.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>💊 FDA PCCP Support</h3>
+      <p>
+        FDA's Predetermined Change Control Plan for Software as Medical Devices aligns perfectly with 
+        VeritasCore's versioned self-modification. Pre-specify modifications, document methodology, 
+        maintain rollback capability.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🏥 Clinical Decision Support</h3>
+      <p>
+        AI-powered clinical decision support without cloud dependency. Analyze patient data, suggest 
+        treatments, flag contraindications - all within your HIPAA-compliant infrastructure.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🤖 Medical Device Autonomy</h3>
+      <p>
+        Enable autonomous operation in medical devices with cryptographic proof of AI decisions. 
+        Versioned rollback critical for patient safety. Audit trail for regulatory submissions.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>📊 Operational Excellence</h3>
+      <p>
+        Optimize hospital operations, staffing, supply chain without exposing sensitive data to cloud. 
+        81% of healthcare organizations report increased revenue from AI adoption.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Healthcare Use Cases</h2>
+  
+  <div class="use-case">
+    <h4>🩺 Clinical Decision Support System</h4>
+    <p>
+      <strong>Challenge:</strong> Physicians need AI assistance analyzing patient data and suggesting 
+      treatments, but cloud-based systems create HIPAA compliance risk and PHI data breach exposure.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Deploy on-premise clinical decision support. AI analyzes 
+      EHR data, lab results, imaging, and medical literature using local LLM. Zero PHI egress. 
+      Cryptographic audit trail for medical-legal defense.
+    </p>
+    <p>
+      <strong>Result:</strong> AI-powered clinical support with complete HIPAA compliance. Improved 
+      diagnostic accuracy. No cloud data breach risk. Audit trail for liability protection.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>💉 Autonomous Medical Device Control</h4>
+    <p>
+      <strong>Challenge:</strong> Next-generation medical devices require autonomous AI decision-making. 
+      FDA requires predetermined change control and rollback capability per PCCP framework.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Embed VeritasCore in medical device firmware. Ultra-lightweight 
+      6.8MB footprint fits on device hardware. Versioned self-modification with cryptographic signing 
+      satisfies FDA PCCP. Deterministic rollback for patient safety.
+    </p>
+    <p>
+      <strong>Result:</strong> FDA-compliant autonomous medical devices. Cryptographic proof of device 
+      decisions for regulatory submissions. Safety-critical rollback capability.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>🏥 Hospital Operations Optimization</h4>
+    <p>
+      <strong>Challenge:</strong> Hospitals need AI optimization of staffing, bed management, supply chain, 
+      but operational data contains PHI that cannot go to cloud.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> On-premise deployment optimizes operations using de-identified 
+      or PHI-containing data safely within hospital infrastructure. AI predicts patient flow, optimizes 
+      staffing levels, manages inventory.
+    </p>
+    <p>
+      <strong>Result:</strong> AI-powered operational excellence without HIPAA violations. Reduced costs, 
+      improved patient outcomes. 81% of organizations report revenue increases.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>🔬 Drug Discovery & Research</h4>
+    <p>
+      <strong>Challenge:</strong> Pharmaceutical research requires AI analysis of patient data for drug 
+      development. IRB approval and HIPAA compliance mandatory.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Analyze patient cohorts, clinical trial data, genomics within 
+      secure research environment. Zero data egress ensures IRB and HIPAA compliance. Audit trail proves 
+      ethical research conduct.
+    </p>
+    <p>
+      <strong>Result:</strong> AI-accelerated drug discovery with complete patient privacy protection. 
+      Regulatory-compliant research methodology.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Healthcare Compliance Framework</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>HIPAA Compliance</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Security Rule §164.312 - Audit controls</li>
+        <li style="margin: 0.5rem 0;">✓ Security Rule §164.312 - Integrity controls</li>
+        <li style="margin: 0.5rem 0;">✓ Privacy Rule - Zero PHI egress</li>
+        <li style="margin: 0.5rem 0;">✓ Breach Notification Rule - Data sovereignty</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>FDA Regulations</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ PCCP Framework - Pre-specified changes</li>
+        <li style="margin: 0.5rem 0;">✓ SaMD - Software as Medical Device</li>
+        <li style="margin: 0.5rem 0;">✓ 21 CFR Part 11 - Electronic records</li>
+        <li style="margin: 0.5rem 0;">✓ Quality System Regulation - QSR</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Clinical Standards</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ HL7 FHIR integration</li>
+        <li style="margin: 0.5rem 0;">✓ DICOM medical imaging</li>
+        <li style="margin: 0.5rem 0;">✓ ICD-10 coding support</li>
+        <li style="margin: 0.5rem 0;">✓ CPT billing integration</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Privacy & Security</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ De-identification (Safe Harbor)</li>
+        <li style="margin: 0.5rem 0;">✓ Limited Data Sets</li>
+        <li style="margin: 0.5rem 0;">✓ Business Associate Agreements</li>
+        <li style="margin: 0.5rem 0;">✓ Minimum necessary standard</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Pricing for Healthcare Organizations</h2>
+  
+  <div class="card" style="background: var(--navy3); border: 2px solid var(--green); padding: 3rem; text-align: center;">
+    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Healthcare Enterprise Tier</h3>
+    <div style="font-family: var(--mono); font-size: 3rem; color: var(--green); margin: 2rem 0;">$2K - $10K monthly</div>
+    
+    <div style="text-align: left; max-width: 600px; margin: 2rem auto;">
+      <h4 style="color: var(--green); margin-bottom: 1rem;">Includes:</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ On-premise HIPAA-compliant deployment</li>
+        <li style="margin: 0.5rem 0;">✓ Zero PHI egress architecture</li>
+        <li style="margin: 0.5rem 0;">✓ FDA PCCP documentation support</li>
+        <li style="margin: 0.5rem 0;">✓ HL7 FHIR & EHR integration</li>
+        <li style="margin: 0.5rem 0;">✓ Cryptographic audit logging</li>
+        <li style="margin: 0.5rem 0;">✓ Business Associate Agreement (BAA)</li>
+        <li style="margin: 0.5rem 0;">✓ 24/7 healthcare support</li>
+        <li style="margin: 0.5rem 0;">✓ Regulatory compliance assistance</li>
+      </ul>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+      <a href="mailto:dapr.team@gmail.com?subject=Healthcare Enterprise Inquiry" class="btn btn-primary">Schedule HIPAA Consultation</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <h2>Start Your Healthcare AI Deployment</h2>
+  <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+      Contact us for a HIPAA-compliant demonstration and compliance assessment.
+    </p>
+    
+    <div style="background: var(--card); padding: 2rem; border: 1px solid rgba(0,230,118,0.2); border-radius: 8px;">
+      <h3 style="color: var(--green); margin-bottom: 1rem;">Healthcare Contact</h3>
+      <p style="margin: 1rem 0;">
+        <strong>Email:</strong> <a href="mailto:dapr.team@gmail.com" style="color: var(--green); text-decoration: none;">dapr.team@gmail.com</a>
+      </p>
+      <p style="margin: 1rem 0;">
+        <strong>Subject:</strong> Healthcare AI Inquiry - [Your Organization]
+      </p>
+      <p style="margin: 1rem 0; opacity: 0.8; font-size: 0.9rem;">
+        BAA and compliance documentation available. HIPAA-secure demos only.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.</p>
+  <p>VeritasCore™ is a trademark of DAPR.</p>
+</footer>
+
+</body>
+</html>

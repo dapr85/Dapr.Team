@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--
+VeritasCore™ Manufacturing & Critical Infrastructure Solutions
+Copyright © 2026 DAPR. All Rights Reserved.
+Contact: dapr.team@gmail.com
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manufacturing & ICS Solutions - VeritasCore™</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700;800&family=Exo+2:wght@300;400;600;800&display=swap');
+:root{--navy:#050e1a;--card:#0d1b2e;--teal:#00d4c8;--orange:#ff6b35;--text:#c8d8e8;--mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;--body:'Exo 2',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--navy);color:var(--text);font-family:var(--body);line-height:1.6}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,200,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,200,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+header{position:sticky;top:0;z-index:100;background:rgba(10,22,40,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,212,200,0.2);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-icon{width:40px;height:40px;border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:rgba(0,212,200,0.12)}
+.logo-text{font-family:var(--head);font-size:24px;font-weight:700;color:#fff;letter-spacing:2px}
+nav{display:flex;gap:2rem}
+nav a{color:var(--text);text-decoration:none;font-family:var(--head);font-weight:500;transition:color 0.3s}
+nav a:hover{color:var(--teal)}
+.hero{position:relative;z-index:1;padding:6rem 2rem 4rem;max-width:1200px;margin:0 auto}
+.hero h1{font-family:var(--head);font-size:4rem;font-weight:800;color:#fff;margin-bottom:1rem;text-transform:uppercase;letter-spacing:4px}
+.hero .subtitle{font-size:1.5rem;color:var(--orange);margin-bottom:2rem;font-weight:300}
+.hero p{font-size:1.2rem;max-width:800px;margin-bottom:3rem;opacity:0.9}
+.btn{display:inline-block;padding:1rem 2.5rem;font-family:var(--head);font-size:1.1rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:all 0.3s;text-transform:uppercase;letter-spacing:1px;margin-right:1rem}
+.btn-primary{background:var(--orange);color:#fff;box-shadow:0 0 20px rgba(255,107,53,0.4)}
+.btn-primary:hover{box-shadow:0 0 30px rgba(255,107,53,0.6);transform:translateY(-2px)}
+.btn-secondary{background:transparent;color:var(--orange);border:2px solid var(--orange)}
+.section{position:relative;z-index:1;max-width:1200px;margin:4rem auto;padding:2rem}
+.section h2{font-family:var(--head);font-size:2.5rem;margin-bottom:2rem;color:#fff;text-transform:uppercase;letter-spacing:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-top:2rem}
+.card{background:var(--card);border:1px solid rgba(255,107,53,0.2);padding:2rem;border-radius:8px;transition:all 0.3s}
+.card:hover{border-color:var(--orange);box-shadow:0 0 30px rgba(255,107,53,0.2);transform:translateY(-5px)}
+.card h3{font-family:var(--head);font-size:1.5rem;color:var(--orange);margin-bottom:1rem}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem;margin:3rem 0}
+.stat-card{text-align:center;padding:2rem;background:var(--card);border:1px solid rgba(255,107,53,0.2);border-radius:8px}
+.stat-number{font-family:var(--mono);font-size:3rem;color:var(--orange);font-weight:700;margin-bottom:0.5rem}
+.stat-label{opacity:0.8;font-size:1.1rem}
+.use-case{background:#0f1f38;border-left:4px solid var(--orange);padding:2rem;margin:2rem 0;border-radius:4px}
+.use-case h4{font-family:var(--head);color:var(--orange);font-size:1.3rem;margin-bottom:1rem}
+footer{position:relative;z-index:1;text-align:center;padding:3rem 2rem;margin-top:4rem;border-top:1px solid rgba(0,212,200,0.2);opacity:0.7}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" class="logo">
+<div class="logo-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="fill:var(--teal)"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/></svg></div>
+<div class="logo-text">VERITASCORE™</div>
+</a>
+<nav>
+<a href="index.html">Home</a>
+<a href="index.html#features">Features</a>
+<a href="index.html#pricing">Pricing</a>
+<a href="index.html#contact">Contact</a>
+</nav>
+</header>
+<section class="hero">
+<h1>⚙️ MANUFACTURING & ICS</h1>
+<div class="subtitle">SCADA/ICS Edge Deployment with Purdue Model Security</div>
+<p>VeritasCore delivers autonomous AI for industrial control systems and manufacturing operations. 6.8MB footprint deploys on PLCs and edge controllers. Purdue Model compliant for SCADA/ICS environments requiring air-gapped operation.</p>
+<a href="#contact" class="btn btn-primary">Request Industrial Demo</a>
+<a href="control-panel.html#manufacturing" class="btn btn-secondary">View Technical Specs</a>
+</section>
+<section class="section">
+<div class="stat-grid">
+<div class="stat-card"><div class="stat-number">23%</div><div class="stat-label">CAGR Edge AI Growth</div></div>
+<div class="stat-card"><div class="stat-number">3,083→15</div><div class="stat-label">Hours Downtime Reduction</div></div>
+<div class="stat-card"><div class="stat-number">6.8MB</div><div class="stat-label">PLC-Compatible Footprint</div></div>
+<div class="stat-card"><div class="stat-number">PURDUE</div><div class="stat-label">Model Compliant</div></div>
+</div>
+</section>
+<section class="section">
+<h2>Why Manufacturing Chooses VeritasCore</h2>
+<div class="grid">
+<div class="card"><h3>🏭 PLC & Edge Deployment</h3><p>6.8MB footprint runs on industrial PLCs, edge controllers, and embedded systems. Deploy AI directly on factory floor hardware without requiring new infrastructure.</p></div>
+<div class="card"><h3>🔒 Purdue Model Security</h3><p>Air-gapped deployment satisfies Purdue Model Level 2-3 security requirements for SCADA/ICS. Zero internet dependency eliminates cyber attack surface.</p></div>
+<div class="card"><h3>⚡ Real-Time Performance</h3><p>Ultra-lightweight architecture delivers real-time response for industrial control applications. No GPU required - runs on existing automation hardware.</p></div>
+<div class="card"><h3>🔧 Self-Healing Operations</h3><p>Autonomous AI detects anomalies, predicts failures, and applies corrective actions. Documented downtime reduction from 3,083 hours to 15.4 hours.</p></div>
+<div class="card"><h3>📊 Predictive Maintenance</h3><p>AI analyzes sensor data for early failure detection. Prevents unplanned downtime through predictive rather than reactive maintenance.</p></div>
+<div class="card"><h3>🎯 Quality Control</h3><p>Real-time defect detection using edge AI. Reduce waste and improve product quality without cloud latency.</p></div>
+</div>
+</section>
+<section class="section">
+<h2>Manufacturing Use Cases</h2>
+<div class="use-case">
+<h4>🏭 Autonomous Production Optimization</h4>
+<p><strong>Challenge:</strong> Manufacturing lines require real-time optimization but cloud latency creates quality issues. SCADA security prohibits internet connectivity.</p>
+<p><strong>VeritasCore Solution:</strong> Deploy autonomous optimization agents on edge controllers. Real-time adjustment of production parameters. Zero latency, complete air-gapped operation.</p>
+<p><strong>Result:</strong> Production efficiency improvement. Quality increases. Zero cyber attack risk from air-gapped architecture.</p>
+</div>
+<div class="use-case">
+<h4>🔧 Predictive Maintenance</h4>
+<p><strong>Challenge:</strong> Equipment failures cause massive downtime. Reactive maintenance is expensive. Cloud-based AI creates unacceptable latency.</p>
+<p><strong>VeritasCore Solution:</strong> Deploy predictive maintenance AI on industrial edge hardware. Analyze vibration, temperature, acoustic sensors in real-time. Predict failures before they occur.</p>
+<p><strong>Result:</strong> Downtime reduced from 3,083 hours to 15.4 hours annually. Maintenance costs reduced. Production continuity improved.</p>
+</div>
+<div class="use-case">
+<h4>🎯 Real-Time Quality Control</h4>
+<p><strong>Challenge:</strong> Defect detection requires AI vision but cloud round-trip creates production bottlenecks and quality escapes.</p>
+<p><strong>VeritasCore Solution:</strong> Deploy computer vision AI on edge hardware at production line speed. Real-time defect detection with zero cloud latency.</p>
+<p><strong>Result:</strong> Quality improvements. Waste reduction. No production slowdown from cloud latency.</p>
+</div>
+<div class="use-case">
+<h4>⚡ Energy Optimization</h4>
+<p><strong>Challenge:</strong> Industrial facilities have massive energy costs. Optimization requires real-time AI but OT/IT segregation prohibits cloud.</p>
+<p><strong>VeritasCore Solution:</strong> Deploy energy optimization AI within OT network. Analyze consumption patterns, predict demand, optimize usage - all air-gapped.</p>
+<p><strong>Result:</strong> Energy cost reduction. Carbon footprint reduction. Purdue Model compliance maintained.</p>
+</div>
+</section>
+<section class="section">
+<h2>Pricing for Manufacturing</h2>
+<div class="card" style="background:#0f1f38;border:2px solid var(--orange);padding:3rem;text-align:center">
+<h3 style="font-size:2rem;margin-bottom:1rem">Manufacturing Enterprise Tier</h3>
+<div style="font-family:var(--mono);font-size:3rem;color:var(--orange);margin:2rem 0">$2K - $10K monthly</div>
+<div style="text-align:left;max-width:600px;margin:2rem auto">
+<h4 style="color:var(--orange);margin-bottom:1rem">Includes:</h4>
+<ul style="list-style:none;padding:0">
+<li style="margin:0.5rem 0">✓ PLC/ICS edge deployment</li>
+<li style="margin:0.5rem 0">✓ Purdue Model compliant architecture</li>
+<li style="margin:0.5rem 0">✓ Air-gapped operation</li>
+<li style="margin:0.5rem 0">✓ OPC UA/Modbus integration</li>
+<li style="margin:0.5rem 0">✓ Predictive maintenance modules</li>
+<li style="margin:0.5rem 0">✓ Quality control AI</li>
+<li style="margin:0.5rem 0">✓ 24/7 industrial support</li>
+<li style="margin:0.5rem 0">✓ On-site deployment assistance</li>
+</ul>
+</div>
+<div style="margin-top:2rem"><a href="mailto:dapr.team@gmail.com?subject=Manufacturing Inquiry" class="btn btn-primary">Schedule Industrial Demo</a></div>
+</div>
+</section>
+<section class="section" id="contact">
+<h2>Start Your Manufacturing AI Deployment</h2>
+<div style="max-width:600px;margin:0 auto;text-align:center">
+<p style="font-size:1.2rem;margin-bottom:2rem">Contact us for industrial automation assessment and edge AI demonstration.</p>
+<div style="background:var(--card);padding:2rem;border:1px solid rgba(255,107,53,0.2);border-radius:8px">
+<h3 style="color:var(--orange);margin-bottom:1rem">Manufacturing Contact</h3>
+<p style="margin:1rem 0"><strong>Email:</strong> <a href="mailto:dapr.team@gmail.com" style="color:var(--orange);text-decoration:none">dapr.team@gmail.com</a></p>
+<p style="margin:1rem 0"><strong>Subject:</strong> Manufacturing AI Inquiry - [Your Facility]</p>
+</div>
+</div>
+</section>
+<footer>
+<p>© 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.</p>
+<p>VeritasCore™ is a trademark of DAPR.</p>
+</footer>
+</body>
+</html>

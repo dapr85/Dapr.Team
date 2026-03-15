@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<!--
+═══════════════════════════════════════════════════════════════════════════
+VeritasCore™ Financial Services Solutions
+Copyright © 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.
+Contact: dapr.team@gmail.com
+═══════════════════════════════════════════════════════════════════════════
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Services Solutions - VeritasCore™</title>
+<meta name="description" content="VeritasCore for financial services. FINRA Rule 4511 compliant, air-gapped deployment for central banks and sovereign wealth funds.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700;800&family=Exo+2:wght@300;400;600;800&display=swap');
+
+:root {
+  --navy: #050e1a;
+  --navy2: #0a1628;
+  --navy3: #0f1f38;
+  --card: #0d1b2e;
+  --teal: #00d4c8;
+  --gold: #f0b429;
+  --text: #c8d8e8;
+  --mono: 'Share Tech Mono', monospace;
+  --head: 'Rajdhani', sans-serif;
+  --body: 'Exo 2', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: var(--body);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,200,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,200,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,22,40,0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,212,200,0.2);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(0,212,200,0.12);
+}
+
+.logo-text {
+  font-family: var(--head);
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+}
+
+nav {
+  display: flex;
+  gap: 2rem;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-family: var(--head);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav a:hover { color: var(--teal); }
+
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-family: var(--head);
+  font-size: 4rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+}
+
+.hero .subtitle {
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin-bottom: 3rem;
+  opacity: 0.9;
+}
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-family: var(--head);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-right: 1rem;
+}
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--navy);
+  box-shadow: 0 0 20px rgba(240,180,41,0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 30px rgba(240,180,41,0.6);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 4rem auto;
+  padding: 2rem;
+}
+
+.section h2 {
+  font-family: var(--head);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(240,180,41,0.2);
+  padding: 2rem;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 30px rgba(240,180,41,0.2);
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  font-family: var(--head);
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 2rem;
+  background: var(--card);
+  border: 1px solid rgba(240,180,41,0.2);
+  border-radius: 8px;
+}
+
+.stat-number {
+  font-family: var(--mono);
+  font-size: 3rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  opacity: 0.8;
+  font-size: 1.1rem;
+}
+
+.use-case {
+  background: var(--navy3);
+  border-left: 4px solid var(--gold);
+  padding: 2rem;
+  margin: 2rem 0;
+  border-radius: 4px;
+}
+
+.use-case h4 {
+  font-family: var(--head);
+  color: var(--gold);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin-top: 4rem;
+  border-top: 1px solid rgba(0,212,200,0.2);
+  opacity: 0.7;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="fill: var(--teal);">
+        <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"/>
+      </svg>
+    </div>
+    <div class="logo-text">VERITASCORE™</div>
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#features">Features</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>💹 FINANCIAL SERVICES</h1>
+  <div class="subtitle">FINRA-Compliant Autonomous AI for Regulated Finance</div>
+  <p>
+    VeritasCore delivers logged, supervised, and reversible autonomous AI for financial services. 
+    Built for central banks, sovereign wealth funds, and institutions where cloud deployment 
+    is a non-starter and regulatory compliance is mandatory.
+  </p>
+  <a href="#contact" class="btn btn-primary">Schedule Demo</a>
+  <a href="control-panel.html#finance" class="btn btn-secondary">View Compliance Details</a>
+</section>
+
+<section class="section">
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-number">FINRA</div>
+      <div class="stat-label">2026 Agentic AI Regulations</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">34%</div>
+      <div class="stat-label">Insurance AI Adoption (2025)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">On-Premise / Air-Gapped Capable</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">$500B</div>
+      <div class="stat-label">AI Insurance Market by 2030</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Why Financial Institutions Choose VeritasCore</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>📜 FINRA Rule 4511 Native</h3>
+      <p>
+        FINRA's 2026 Annual Regulatory Oversight Report requires autonomous AI actions be 
+        "logged, supervised, and reversible." VeritasCore's cryptographic audit trail and 
+        versioned rollback satisfy these requirements natively.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🏦 Air-Gapped for Central Banks</h3>
+      <p>
+        Documented deployments at national banks where cloud is "a non-starter" due to risk 
+        of market-moving data exfiltration. Complete offline operation with local LLM integration.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🔐 Reconstructable Activity Chains</h3>
+      <p>
+        Every autonomous action is cryptographically signed and timestamped. Mathematical proof 
+        of what the AI did, when, and why. Essential for regulatory audits and investigations.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>💼 Insurance Premium Reduction</h3>
+      <p>
+        Systems with cryptographic audit trails and deterministic rollback are more insurable 
+        at lower premiums. AIUC (Artificial Intelligence Underwriting Company) projects $500B 
+        AI insurance market by 2030.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>⚖️ AI Liability Defense</h3>
+      <p>
+        Cryptographic proof provides strongest possible defense in liability proceedings. 
+        Mathematical evidence of what code ran, when modifications occurred, and whether 
+        authorized procedures were followed.
+      </p>
+    </div>
+    
+    <div class="card">
+      <h3>🎯 Zero Vendor Lock-In</h3>
+      <p>
+        BYOLLM architecture means you control AI model selection. Switch providers, run locally, 
+        or use multiple models simultaneously. 90%+ gross margins with zero inference costs.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Financial Services Use Cases</h2>
+  
+  <div class="use-case">
+    <h4>🏛️ Central Bank Policy Analysis</h4>
+    <p>
+      <strong>Challenge:</strong> Central banks require AI analysis of economic data without 
+      risk of market-moving information leaking to cloud providers.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Deploy completely air-gapped within central bank 
+      infrastructure. Analyze economic indicators, policy impacts, and market conditions using 
+      local LLM. Zero data egress ensures absolute confidentiality.
+    </p>
+    <p>
+      <strong>Result:</strong> AI-powered policy analysis with mathematical proof no data left 
+      the secure perimeter. Audit trail satisfies internal governance requirements.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>💰 Sovereign Wealth Fund Investment Analysis</h4>
+    <p>
+      <strong>Challenge:</strong> Multi-billion dollar investment decisions require AI analysis, 
+      but cloud-based solutions create unacceptable information leakage risk.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> On-premise deployment analyzes investment opportunities, 
+      market conditions, and portfolio optimization. Cryptographic audit trail proves AI reasoning 
+      for fiduciary duty compliance.
+    </p>
+    <p>
+      <strong>Result:</strong> AI investment analysis with complete data sovereignty. Audit trail 
+      demonstrates due diligence for regulatory oversight.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>🛡️ Fraud Detection & AML</h4>
+    <p>
+      <strong>Challenge:</strong> Anti-money laundering and fraud detection require real-time 
+      autonomous decisions. Regulators demand explainable AI with audit trails.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Autonomous fraud detection with versioned decision 
+      logging. Every alert includes cryptographic proof of the AI's reasoning. Rollback capability 
+      if model generates false positives.
+    </p>
+    <p>
+      <strong>Result:</strong> Regulatory-compliant autonomous fraud detection. Audit trail satisfies 
+      FinCEN and banking regulator requirements.
+    </p>
+  </div>
+  
+  <div class="use-case">
+    <h4>📊 Algorithmic Trading Oversight</h4>
+    <p>
+      <strong>Challenge:</strong> Autonomous trading algorithms must be supervised, logged, and 
+      reversible per FINRA requirements. Black-box AI creates compliance risk.
+    </p>
+    <p>
+      <strong>VeritasCore Solution:</strong> Trading algorithms operate under VeritasCore supervision. 
+      Every trade decision logged with cryptographic signature. Instant rollback if algo behaves 
+      unexpectedly.
+    </p>
+    <p>
+      <strong>Result:</strong> FINRA-compliant autonomous trading. Complete audit trail for regulatory 
+      examination. Rollback capability limits downside risk.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Regulatory Compliance Framework</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>FINRA Compliance</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Rule 4511 - Logged actions</li>
+        <li style="margin: 0.5rem 0;">✓ Supervised AI decisions</li>
+        <li style="margin: 0.5rem 0;">✓ Reversible autonomous actions</li>
+        <li style="margin: 0.5rem 0;">✓ Reconstructable activity chains</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Banking Regulations</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Basel III operational risk</li>
+        <li style="margin: 0.5rem 0;">✓ Dodd-Frank compliance</li>
+        <li style="margin: 0.5rem 0;">✓ GDPR for EU banks</li>
+        <li style="margin: 0.5rem 0;">✓ PCI-DSS for payment systems</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>SEC Requirements</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ Investment Advisers Act</li>
+        <li style="margin: 0.5rem 0;">✓ Reg SCI for critical systems</li>
+        <li style="margin: 0.5rem 0;">✓ Form ADV disclosures</li>
+        <li style="margin: 0.5rem 0;">✓ Best execution requirements</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3>Insurance Regulations</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ NAIC Model Bulletin on AI</li>
+        <li style="margin: 0.5rem 0;">✓ Actuarial standards</li>
+        <li style="margin: 0.5rem 0;">✓ Claims automation compliance</li>
+        <li style="margin: 0.5rem 0;">✓ Underwriting fairness</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Pricing for Financial Institutions</h2>
+  
+  <div class="card" style="background: var(--navy3); border: 2px solid var(--gold); padding: 3rem; text-align: center;">
+    <h3 style="font-size: 2rem; margin-bottom: 1rem;">Enterprise Financial Services Tier</h3>
+    <div style="font-family: var(--mono); font-size: 3rem; color: var(--gold); margin: 2rem 0;">$2K - $10K monthly</div>
+    
+    <div style="text-align: left; max-width: 600px; margin: 2rem auto;">
+      <h4 style="color: var(--gold); margin-bottom: 1rem;">Includes:</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin: 0.5rem 0;">✓ On-premise or VPC deployment</li>
+        <li style="margin: 0.5rem 0;">✓ FINRA/SEC/Banking regulatory compliance</li>
+        <li style="margin: 0.5rem 0;">✓ SOC 2 Type II certification</li>
+        <li style="margin: 0.5rem 0;">✓ Cryptographic audit logging</li>
+        <li style="margin: 0.5rem 0;">✓ SSO/RBAC integration</li>
+        <li style="margin: 0.5rem 0;">✓ 24/7 support with 4-hour SLA</li>
+        <li style="margin: 0.5rem 0;">✓ Dedicated compliance documentation</li>
+        <li style="margin: 0.5rem 0;">✓ Regulatory audit assistance</li>
+      </ul>
+    </div>
+    
+    <div style="margin-top: 2rem;">
+      <a href="mailto:dapr.team@gmail.com?subject=Financial Services Enterprise Inquiry" class="btn btn-primary">Schedule Compliance Review</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contact">
+  <h2>Start Your Financial Services Deployment</h2>
+  <div style="max-width: 600px; margin: 0 auto; text-align: center;">
+    <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+      Contact us for a compliance assessment and demonstration of VeritasCore's regulatory features.
+    </p>
+    
+    <div style="background: var(--card); padding: 2rem; border: 1px solid rgba(240,180,41,0.2); border-radius: 8px;">
+      <h3 style="color: var(--gold); margin-bottom: 1rem;">Financial Services Contact</h3>
+      <p style="margin: 1rem 0;">
+        <strong>Email:</strong> <a href="mailto:dapr.team@gmail.com" style="color: var(--gold); text-decoration: none;">dapr.team@gmail.com</a>
+      </p>
+      <p style="margin: 1rem 0;">
+        <strong>Subject:</strong> Financial Services Inquiry - [Your Institution]
+      </p>
+      <p style="margin: 1rem 0; opacity: 0.8; font-size: 0.9rem;">
+        NDA available. Compliance documentation provided under confidentiality.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 DAPR (Dale Associate Public Relations). All Rights Reserved.</p>
+  <p>VeritasCore™ is a trademark of DAPR.</p>
+</footer>
+
+</body>
+</html>
